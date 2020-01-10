@@ -1,0 +1,698 @@
+# Ukrainian translation for gnome-tweak-tool.
+# Copyright (C) 2011 gnome-tweak-tool's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-tweak-tool package.
+# Sergiy Gavrylov <sergiovana@bigmir.net>, 2011.
+# Daniel Korostil <ted.korostiled@gmail.com>, 2014, 2015, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-tweak-tool master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"tweak-tool&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-09-02 13:46+0000\n"
+"PO-Revision-Date: 2016-09-17 18:53+0300\n"
+"Last-Translator: Daniel Korostil <ted.korostiled@gmail.com>\n"
+"Language-Team: linux.org.ua\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
+
+#: ../data/gnome-tweak-tool.appdata.xml.in.h:1 ../gtweak/app.py:34
+#: ../gtweak/utils.py:327
+msgid "GNOME Tweak Tool"
+msgstr "Засіб налаштування GNOME"
+
+#: ../data/gnome-tweak-tool.appdata.xml.in.h:2
+#: ../data/gnome-tweak-tool.desktop.in.h:2
+msgid "Tweak advanced GNOME 3 settings"
+msgstr "Додаткові налаштування для GNOME 3"
+
+#: ../data/gnome-tweak-tool.appdata.xml.in.h:3
+msgid "GNOME Tweak Tool allows adjusting advanced GNOME options."
+msgstr ""
+"Засіб налаштування GNOME дозволяє скоригувати додаткові параметри GNOME."
+
+#: ../data/gnome-tweak-tool.appdata.xml.in.h:4
+msgid ""
+"It can install and manage themes and extensions, change power settings, "
+"manage startup applications, and enable desktop icons among other settings."
+msgstr ""
+"Програма вміє встановлювати та організовувати теми і розширення, змінити "
+"параметри живлення, організувати початкові програм, вмикає стільничні "
+"піктограми серед інших параметрів."
+
+#: ../data/gnome-tweak-tool.desktop.in.h:1
+msgid "Tweak Tool"
+msgstr "Засіб налаштування"
+
+#: ../data/gnome-tweak-tool.desktop.in.h:3
+msgid ""
+"Settings;Advanced;Preferences;Extensions;Fonts;Theme;XKB;Keyboard;Typing;"
+msgstr ""
+"Параметри;Додаткові;Налаштування;Розширення;Шрифти;Теми;XKB;Клавіатура;"
+"Набирання;"
+
+#: ../data/shell.ui.h:1
+msgid "_Reset to Defaults"
+msgstr "_Типові значення"
+
+#: ../data/shell.ui.h:2
+msgid "Disable All Shell Extensions"
+msgstr "Вимкнути всі розширення"
+
+#: ../data/shell.ui.h:3
+msgid "_About"
+msgstr "_Про програму"
+
+#: ../data/shell.ui.h:4
+msgid "_Quit"
+msgstr "Ви_йти"
+
+#: ../gtweak/app.py:78
+msgid "Reset to Defaults"
+msgstr "Типові значення"
+
+#: ../gtweak/app.py:79
+msgid "Reset all tweak settings to the original default state?"
+msgstr "Повернути всі параметри до початкового стану?"
+
+#: ../gtweak/app.py:98
+#, python-format
+msgid "GNOME Shell v%s (%s mode)"
+msgstr "GNOME Shell v%s (режим %s)"
+
+#: ../gtweak/app.py:100
+msgid "GNOME Shell not running"
+msgstr "GNOME Shell не запущено"
+
+#: ../gtweak/app.py:105
+msgid "Homepage"
+msgstr "Домашня сторінка"
+
+#: ../gtweak/tweakmodel.py:28
+msgid "Appearance"
+msgstr "Вигляд"
+
+#: ../gtweak/tweakmodel.py:29
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:301
+msgid "Extensions"
+msgstr "Розширення"
+
+#: ../gtweak/tweakmodel.py:30
+msgid "Fonts"
+msgstr "Шрифти"
+
+#: ../gtweak/tweakmodel.py:31
+msgid "Power"
+msgstr "Живлення"
+
+#: ../gtweak/tweakmodel.py:32 ../gtweak/tweaks/tweak_group_startup.py:303
+msgid "Startup Applications"
+msgstr "Початкові програми"
+
+#: ../gtweak/tweakmodel.py:33
+msgid "Top Bar"
+msgstr "Верхня панель"
+
+#: ../gtweak/tweakmodel.py:34
+msgid "Windows"
+msgstr "Вікна"
+
+#: ../gtweak/tweakmodel.py:35
+msgid "Workspaces"
+msgstr "Робочі простори"
+
+#: ../gtweak/tweakmodel.py:37 ../gtweak/tweaks/tweak_group_keymouse.py:71
+msgid "Mouse"
+msgstr "Миша"
+
+#: ../gtweak/tweakmodel.py:38
+msgid "Files"
+msgstr "Файли"
+
+#: ../gtweak/tweakmodel.py:52
+msgid "Miscellaneous"
+msgstr "Інше"
+
+#: ../gtweak/tweakview.py:100
+msgid "Tweaks"
+msgstr "Коригування"
+
+#: ../gtweak/tweakview.py:116
+msgid "Search Tweaks..."
+msgstr "Пошук коригувань…"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:22
+msgid "Icons on Desktop"
+msgstr "Піктограми на стільниці"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:25
+msgid "Desktop"
+msgstr "Стільниця"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:27
+msgid "Computer"
+msgstr "Комп'ютер"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:28
+msgid "Home"
+msgstr "Домівка"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:29
+msgid "Network Servers"
+msgstr "Мережеві сервери"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:30
+msgid "Trash"
+msgstr "Смітник"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:31
+msgid "Mounted Volumes"
+msgstr "Змонтовані томи"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:32
+msgid "Background"
+msgstr "Тло"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:33
+#: ../gtweak/tweaks/tweak_group_desktop.py:36
+msgid "Mode"
+msgstr "Режим"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:34
+msgid "Background Location"
+msgstr "Адреса тла"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:35
+msgid "Lock Screen"
+msgstr "Блокування екрана"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:37
+msgid "Lock Screen Location"
+msgstr "Адреса блокування екрана"
+
+#: ../gtweak/tweaks/tweak_group_font.py:25
+msgid "Window Titles"
+msgstr "Заголовок вікна"
+
+#: ../gtweak/tweaks/tweak_group_font.py:26
+msgid "Interface"
+msgstr "Інтерфейс"
+
+#: ../gtweak/tweaks/tweak_group_font.py:27
+msgid "Documents"
+msgstr "Документи"
+
+#: ../gtweak/tweaks/tweak_group_font.py:28
+msgid "Monospace"
+msgstr "Моноширинний"
+
+#: ../gtweak/tweaks/tweak_group_font.py:29
+msgid "Hinting"
+msgstr "Хінтінг"
+
+#: ../gtweak/tweaks/tweak_group_font.py:31
+msgid "Antialiasing"
+msgstr "Згладжування"
+
+#: ../gtweak/tweaks/tweak_group_font.py:33
+msgid "Scaling Factor"
+msgstr "Масштаб"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:65
+msgid "Icons"
+msgstr "Піктограми"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:83
+msgid "Cursor"
+msgstr "Вказівник"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:110
+msgid "Shell theme"
+msgstr "Тема оболонки"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:110
+msgid "Install custom or user themes for gnome-shell"
+msgstr "Встановити власні й користувацькі теми для оболонки"
+
+#. check the shell is running and the usertheme extension is present
+#: ../gtweak/tweaks/tweak_group_interface.py:113
+msgid "Unknown error"
+msgstr "Невідома помилка"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:118
+msgid "Shell not running"
+msgstr "Оболонку не запущено"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:140
+msgid "Shell user-theme extension incorrectly installed"
+msgstr "Розширення користувацької теми для оболонки неправильно встановлено"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:143
+msgid "Shell user-theme extension not enabled"
+msgstr "Розширення користувацької тема для оболонки не ввімкнено"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:146
+msgid "Could not list shell extensions"
+msgstr "Неможливо перелічити розширення оболонки"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:175
+#: ../gtweak/tweaks/tweak_group_keymouse.py:47
+msgid "<i>Default</i>"
+msgstr "<i>Типово</i>"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:181
+msgid "Select a theme"
+msgstr "Вибрати тему"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:230
+#, python-format
+msgid "%s theme updated successfully"
+msgstr "Тему %s успішно оновлено"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:232
+#, python-format
+msgid "%s theme installed successfully"
+msgstr "Тему %s успішно встановлено."
+
+#: ../gtweak/tweaks/tweak_group_interface.py:240
+msgid "Error installing theme"
+msgstr "Помилка встановлення теми"
+
+#. does not look like a valid theme
+#: ../gtweak/tweaks/tweak_group_interface.py:245
+msgid "Invalid theme"
+msgstr "Неправильна тема"
+
+#. GSettingsSwitchTweak("Buttons Icons","org.gnome.desktop.interface", "buttons-have-icons"),
+#. GSettingsSwitchTweak("Menu Icons","org.gnome.desktop.interface", "menus-have-icons"),
+#: ../gtweak/tweaks/tweak_group_interface.py:261
+msgid "Theme"
+msgstr "Тема"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:266
+msgid "Enable animations"
+msgstr "Увімкнути анімацію"
+
+#: ../gtweak/tweaks/tweak_group_xkb.py:55
+#: ../gtweak/tweaks/tweak_group_windows.py:143
+msgid "Disabled"
+msgstr "Вимкнено"
+
+#: ../gtweak/tweaks/tweak_group_xkb.py:161
+msgid "Typing"
+msgstr "Набирання"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:78
+msgid "Extension downloading"
+msgstr "Звантаження розширення"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:80
+msgid "Error loading extension"
+msgstr "Помилка завантаження розширення"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:82
+msgid "Extension does not support shell version"
+msgstr "Розширення не підтримує версію оболонки"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:84
+msgid "Unknown extension error"
+msgstr "Невідома помилка розширення"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:105
+#: ../gtweak/tweaks/tweak_group_startup.py:229
+msgid "Remove"
+msgstr "Вилучити"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:137
+msgid "Uninstall Extension"
+msgstr "Вилучити розширення"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:138
+#, python-format
+msgid "Do you want to uninstall the '%s' extension?"
+msgstr "Бажаєте вилучити розширення «%s»?"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:155
+msgid "Updating"
+msgstr "Оновлення"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:166
+msgid "Error"
+msgstr "Помилка"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:171
+msgid "Update"
+msgstr "Оновити"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:186
+msgid "Install Shell Extension"
+msgstr "Встановити розширення оболонки"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:191
+msgid "Select an extension"
+msgstr "Вибрати розширення"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:198
+msgid "Get more extensions"
+msgstr "Ще розширення"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:248
+#, python-format
+msgid "%s extension updated successfully"
+msgstr "Розширення %s успішно оновлено"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:250
+#, python-format
+msgid "%s extension installed successfully"
+msgstr "Розширення %s успішно встановлено"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:255
+msgid "Error installing extension"
+msgstr "Помилка встановлення розширення"
+
+#. does not look like a valid theme
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:260
+msgid "Invalid extension"
+msgstr "Неправильне розширення"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:33
+msgid "Show Application Menu"
+msgstr "Показувати меню програм"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:46
+msgid "Workspace Creation"
+msgstr "Створення робочих просторів"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:51
+msgid "Dynamic"
+msgstr "Динамічне"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:51
+msgid "Static"
+msgstr "Статичне"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:74
+msgid "Don't suspend on lid close"
+msgstr "Не призупиняти систему, коли закрито кришку"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:104
+msgid "Clock"
+msgstr "Годинник"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:105
+msgid "Show date"
+msgstr "Показати дату"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:106
+msgid "Show seconds"
+msgstr "Показувати секунди"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:107
+msgid "Calendar"
+msgstr "Календар"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:108
+msgid "Show week numbers"
+msgstr "Показувати номери тижнів"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:111
+msgid "When Power Button is Pressed"
+msgstr "Коли натиснено кнопку живлення "
+
+#: ../gtweak/tweaks/tweak_group_shell.py:112
+msgid "Action"
+msgstr "Дія"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:113
+msgid "When Laptop Lid is Closed"
+msgstr "Коли кришка ноутбук закрито"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:114
+msgid "On Battery Power"
+msgstr "Живлення від батареї"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:115
+msgid "When plugged in"
+msgstr "Коли під'єднано"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:116
+msgid "Suspend even if an external monitor is plugged in"
+msgstr "Призупиняє роботу, навіть якщо зовнішній монітор під'єднано"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:121
+msgid "Number of Workspaces"
+msgstr "Кількість робочих просторів"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:122
+msgid "Workspaces only on primary display"
+msgstr "Робочий простір лише на основному екрані"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:42
+msgid "Applications"
+msgstr "Програми"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:48
+msgid "Search Applications..."
+msgstr "Пошук програм…"
+
+#. Translators: This is the accelerator for opening the AppChooser search-bar
+#: ../gtweak/tweaks/tweak_group_startup.py:56
+msgid "<primary>f"
+msgstr "<primary>f"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:75
+msgid "running"
+msgstr "запущено"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:85
+msgid "_Close"
+msgstr "_Закрити"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:86
+msgid "_Add"
+msgstr "_Додати"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:253
+msgid "New startup application"
+msgstr "Додати початкову програму"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:254
+msgid "Add a new application to be run at startup"
+msgstr "Додати нову програму, яка буде автоматично запускатись"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:67
+msgid "Window scaling"
+msgstr "Масштабування вікон"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:67
+msgid "Adjust GDK window scaling factor for HiDPI"
+msgstr "Коригувати коефіцієнт масштабування вікон GDK для HiDPI"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:95
+#, python-format
+msgid "Settings will be reverted in %d second"
+msgid_plural "Settings will be reverted in %d seconds"
+msgstr[0] "Параметри буде повернуто через %d секунду"
+msgstr[1] "Параметри буде повернуто через %d секунди"
+msgstr[2] "Параметри буде повернуто через %d секунд"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:111
+msgid "Do you want to keep these HiDPI settings?"
+msgstr "Зберегти ці параметри HiDPI?"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:118
+msgid "Revert Settings"
+msgstr "Повернути параметри"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:119
+msgid "Keep Changes"
+msgstr "Зберегти зміни"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:137
+msgid "Attached Modal Dialogs"
+msgstr "Долучені модальні вікна"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:138
+msgid "Automatically Raise Windows"
+msgstr "Автоматично розгортати вікна"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:139
+msgid "Resize with Secondary-click"
+msgstr "Змінити розмір другим клацанням"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:140
+msgid "Window Action Key"
+msgstr "Клавіша дії вікна"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:144
+msgid "Focus Mode"
+msgstr "Режим фокусування"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:145
+msgid "Titlebar Actions"
+msgstr "Заголовок"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:146
+msgid "Double-click"
+msgstr "Подвійне клацання"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:147
+msgid "Middle-click"
+msgstr "Клацання середньою кнопкою"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:148
+msgid "Secondary-click"
+msgstr "Другий клац"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:149
+msgid "Titlebar Buttons"
+msgstr "Кнопки заголовка"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:150
+msgid "Maximize"
+msgstr "Розгорнути"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:151
+msgid "Minimize"
+msgstr "Згорнути"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:152
+msgid "HiDPI"
+msgstr "HiDPI"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:29
+msgid "Middle-click Paste"
+msgstr "Вставляти через середню клавішу"
+
+#. Translators: This setting refers to a set of pre-defined key bindings
+#: ../gtweak/tweaks/tweak_group_keymouse.py:41
+msgid "Key theme"
+msgstr "Ключова тема"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:60
+msgid "Keyboard and Mouse"
+msgstr "Клавіатура та миша"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:61
+msgid "Show All Input Sources"
+msgstr "Показувати всі джерела введення"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:66
+msgid "Switch between overview and desktop"
+msgstr "Перемикання між оглядом і стільницею"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:69
+msgid "Left super"
+msgstr "Лівий Super"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:69
+msgid "Right super"
+msgstr "Правий Super"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:72
+msgid "Acceleration profile"
+msgstr "Профіль прискорення"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:76
+msgid "Show location of pointer"
+msgstr "Показувати місце перебування вказівника"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:82
+msgid "Touchpad"
+msgstr "Сенсорний пристрій"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:83
+msgid "Click method"
+msgstr "Спосіб натискання"
+
+#: ../gtweak/tweaks/tweak_wacom.py:29
+msgid "Device"
+msgstr "Пристрій"
+
+#: ../gtweak/tweaks/tweak_wacom.py:38
+msgid "Wacom"
+msgstr "Wacom"
+
+#. indicates the default theme, e.g Adwaita (default)
+#: ../gtweak/utils.py:72
+#, python-format
+msgid "%s <i>(default)</i>"
+msgstr "%s <i>(типово)</i>"
+
+#: ../gtweak/utils.py:329
+msgid "Configuration changes require restart"
+msgstr "Зміни налаштування потребують перезавантаження"
+
+#: ../gtweak/utils.py:330
+#| msgid "Applications need to be restarted for change to take effect"
+msgid "Your session needs to be restarted for settings to take effect"
+msgstr "Сеасн потрібно перезапустити, щоб зміни набрали чинності"
+
+#: ../gtweak/utils.py:334
+#| msgid "Restart"
+msgid "Restart Session"
+msgstr "Перезапустити сеанс"
+
+#: ../gtweak/widgets.py:476
+msgid "Enable dark theme for all applications"
+msgstr "Увімкнути темну тему для всіх програм"
+
+#: ../gtweak/widgets.py:477
+msgid "Enable the dark theme hint for all the applications in the session"
+msgstr "Увімкнути темну тему для всіх програм у цьому сеансі"
+
+#: ../gtweak/widgets.py:485
+msgid "Global Dark Theme"
+msgstr "Загальна темна тема"
+
+#: ../gtweak/widgets.py:486
+msgid "Applications need to be restarted for change to take effect"
+msgstr "Програми потрібно перезапустити, щоб зміни набрали чинності"
+
+#: ../gtweak/widgets.py:512
+msgid "Error writing setting"
+msgstr "Помилка записування параметрів"
+
+#~ msgid "About GNOME Tweak Tool"
+#~ msgstr "Про засіб налаштування GNOME"
+
+#~ msgid "Power Button Action"
+#~ msgstr "Дія кнопки керування живленням"
+
+#~ msgid "Add Application"
+#~ msgstr "Додати програму"
+
+#~ msgid "Window"
+#~ msgstr "Вікно"
+
+#~ msgid "Super left"
+#~ msgstr "Лівий Super"
+
+#~ msgid "Super right"
+#~ msgstr "Правий Super"
+
+#~ msgid "welcome"
+#~ msgstr "ласкаво просимо!"
+
+#~ msgid "Icon theme"
+#~ msgstr "Тема піктограм"
+
+#~ msgid "Keybinding theme"
+#~ msgstr "Тема скорочень"
+
+#~ msgid "The shell may need to be restarted to apply the theme"
+#~ msgstr "Можливо, щоб застосувати тему, потрібно перезавантажити Shell"
+
+#~ msgid "Shell"
+#~ msgstr "Оболонка"
+
+#~ msgid "Shell Extensions"
+#~ msgstr "Розширення оболонки"
+
+#~ msgid "File Manager"
+#~ msgstr "Файловий менеджер"

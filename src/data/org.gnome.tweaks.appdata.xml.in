@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>org.gnome.tweaks.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0+</project_license>
+  <project_group>GNOME</project_group>
+  <developer_name>The GNOME Project</developer_name>
+  <update_contact>jbicha_at_ubuntu.com</update_contact>
+  <name>GNOME Tweaks</name>
+  <summary>Tweak advanced GNOME 3 settings</summary>
+  <description>
+    <p>
+     GNOME Tweaks allows adjusting advanced GNOME options.
+    </p>
+    <p>
+    It can install and manage themes and extensions, change power settings,
+    manage startup applications, and enable desktop icons among other settings.
+  </p>
+  </description>
+  <provides>
+    <id>gnome-tweak-tool.desktop</id>
+  </provides>
+  <kudos>
+    <kudo>AppMenu</kudo>
+    <kudo>HiDpiIcon</kudo>
+    <kudo>ModernToolkit</kudo>
+  </kudos>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://wiki.gnome.org/Apps/Tweaks?action=AttachFile&amp;do=get&amp;target=UI.png</image>
+    </screenshot>
+  </screenshots>
+  <translation type="gettext">gnome-tweaks</translation>
+  <url type="homepage">https://wiki.gnome.org/Apps/Tweaks</url>
+  <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-tweaks/issues</url>
+  <url type="donation">https://www.gnome.org/friends/</url>
+  <url type="translate">https://wiki.gnome.org/TranslationProject</url>
+</component>

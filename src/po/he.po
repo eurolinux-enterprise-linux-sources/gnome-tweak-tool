@@ -1,0 +1,722 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Yosef Or Boczko <yoseforb@gnome.org>, 2013, 2014, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-tweak-tool\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-06 12:11+0300\n"
+"PO-Revision-Date: 2016-09-06 12:12+0300\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"Language-Team: עברית <>\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n>2||n==0) ? 1 : 2;\n"
+"X-Poedit-Language: Hebrew\n"
+"X-Poedit-Country: ISRAEL\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Gtranslator 2.91.6\n"
+
+#: ../data/gnome-tweak-tool.appdata.xml.in.h:1 ../gtweak/app.py:34
+#: ../gtweak/utils.py:327
+msgid "GNOME Tweak Tool"
+msgstr "כלי התאמת GNOME"
+
+#: ../data/gnome-tweak-tool.appdata.xml.in.h:2
+#: ../data/gnome-tweak-tool.desktop.in.h:2
+msgid "Tweak advanced GNOME 3 settings"
+msgstr "התאמת הגדרות מתקדמות ב־GNOME 3"
+
+#: ../data/gnome-tweak-tool.appdata.xml.in.h:3
+msgid "GNOME Tweak Tool allows adjusting advanced GNOME options."
+msgstr "‏GNOME כלי התאמות מאפשר התאמה מתקדם של אפשרויות GNOME."
+
+#: ../data/gnome-tweak-tool.appdata.xml.in.h:4
+msgid ""
+"It can install and manage themes and extensions, change power settings, "
+"manage startup applications, and enable desktop icons among other settings."
+msgstr ""
+"הוא מאפשר להתקין ולנהל ערכות נושא והרחבות, שינוי הגדרות חשמל, ניהול יישומי "
+"הפעלה ואפשור סמלים על שולחן העבודה בין שאר הגדרות."
+
+#: ../data/gnome-tweak-tool.desktop.in.h:1
+msgid "Tweak Tool"
+msgstr "כלי התאמות"
+
+#: ../data/gnome-tweak-tool.desktop.in.h:3
+msgid ""
+"Settings;Advanced;Preferences;Extensions;Fonts;Theme;XKB;Keyboard;Typing;"
+msgstr "הגדרות;מתקדם;העדפות;הרחבות;גופנים;ערכת נושא;XKB;מקלדת;הקלדה;"
+
+#: ../data/shell.ui.h:1
+msgid "_Reset to Defaults"
+msgstr "_איפוס לברירת מחדל"
+
+#: ../data/shell.ui.h:2
+msgid "Disable All Shell Extensions"
+msgstr "השבתת כל הרחבות המעטפת"
+
+#: ../data/shell.ui.h:3
+msgid "_About"
+msgstr "על _אודות"
+
+#: ../data/shell.ui.h:4
+msgid "_Quit"
+msgstr "_יציאה"
+
+#: ../gtweak/app.py:78
+msgid "Reset to Defaults"
+msgstr "איפוס לבררת מחדל"
+
+#: ../gtweak/app.py:79
+msgid "Reset all tweak settings to the original default state?"
+msgstr "לאפס כל התאמות ההגדרות למצב בררת מחדל המקורי?"
+
+#: ../gtweak/app.py:98
+#, python-format
+msgid "GNOME Shell v%s (%s mode)"
+msgstr "‏GNOME Shell גרסה %s ‏(מצב %s)"
+
+#: ../gtweak/app.py:100
+msgid "GNOME Shell not running"
+msgstr "מעטפת GNOME אינה רצה"
+
+#: ../gtweak/app.py:105
+msgid "Homepage"
+msgstr "דף הבית"
+
+#: ../gtweak/tweakmodel.py:28
+msgid "Appearance"
+msgstr "מראה"
+
+#: ../gtweak/tweakmodel.py:29
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:301
+msgid "Extensions"
+msgstr "הרחבות"
+
+#: ../gtweak/tweakmodel.py:30
+msgid "Fonts"
+msgstr "גופנים"
+
+#: ../gtweak/tweakmodel.py:31
+msgid "Power"
+msgstr "חשמל"
+
+#: ../gtweak/tweakmodel.py:32 ../gtweak/tweaks/tweak_group_startup.py:303
+msgid "Startup Applications"
+msgstr "יישומי הפעלה"
+
+#: ../gtweak/tweakmodel.py:33
+msgid "Top Bar"
+msgstr "לוח עליון"
+
+#: ../gtweak/tweakmodel.py:34
+msgid "Windows"
+msgstr "חלונות"
+
+#: ../gtweak/tweakmodel.py:35
+msgid "Workspaces"
+msgstr "שולחנות עבודה"
+
+#: ../gtweak/tweakmodel.py:37 ../gtweak/tweaks/tweak_group_keymouse.py:71
+msgid "Mouse"
+msgstr "עכבר"
+
+#: ../gtweak/tweakmodel.py:38
+msgid "Files"
+msgstr "קבצים"
+
+#: ../gtweak/tweakmodel.py:52
+msgid "Miscellaneous"
+msgstr "שונות"
+
+#: ../gtweak/tweakview.py:100
+msgid "Tweaks"
+msgstr "התאמות"
+
+#: ../gtweak/tweakview.py:116
+msgid "Search Tweaks..."
+msgstr "חיפוש התאמות"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:22
+msgid "Icons on Desktop"
+msgstr "סמלילים על שולחן העבודה"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:25
+msgid "Desktop"
+msgstr "שולחן עבודה"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:27
+msgid "Computer"
+msgstr "מחשב"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:28
+msgid "Home"
+msgstr "בית"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:29
+msgid "Network Servers"
+msgstr "שרתי רשת"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:30
+msgid "Trash"
+msgstr "אשפה"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:31
+msgid "Mounted Volumes"
+msgstr "התקנים מעוגנים"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:32
+msgid "Background"
+msgstr "רקע"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:33
+#: ../gtweak/tweaks/tweak_group_desktop.py:36
+msgid "Mode"
+msgstr "מצב"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:34
+msgid "Background Location"
+msgstr "מיקום רקע"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:35
+msgid "Lock Screen"
+msgstr "מסך נעילה"
+
+#: ../gtweak/tweaks/tweak_group_desktop.py:37
+msgid "Lock Screen Location"
+msgstr "מיקום רקע מסך נעילה"
+
+#: ../gtweak/tweaks/tweak_group_font.py:25
+msgid "Window Titles"
+msgstr "כותרי חלון"
+
+#: ../gtweak/tweaks/tweak_group_font.py:26
+msgid "Interface"
+msgstr "מנשק"
+
+#: ../gtweak/tweaks/tweak_group_font.py:27
+msgid "Documents"
+msgstr "מסמכים"
+
+#: ../gtweak/tweaks/tweak_group_font.py:28
+msgid "Monospace"
+msgstr "גופן ברוחב אחיד"
+
+#: ../gtweak/tweaks/tweak_group_font.py:29
+msgid "Hinting"
+msgstr "רמז"
+
+#: ../gtweak/tweaks/tweak_group_font.py:31
+msgid "Antialiasing"
+msgstr "החלקה"
+
+#: ../gtweak/tweaks/tweak_group_font.py:33
+msgid "Scaling Factor"
+msgstr "גורם קנה מידה"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:65
+msgid "Icons"
+msgstr "סמלילים"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:83
+msgid "Cursor"
+msgstr "סמן"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:110
+msgid "Shell theme"
+msgstr "ערכת מעטפת"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:110
+msgid "Install custom or user themes for gnome-shell"
+msgstr "התקנה מותאמת אישית של ערכות נושא עבור gnome-shell"
+
+#. check the shell is running and the usertheme extension is present
+#: ../gtweak/tweaks/tweak_group_interface.py:113
+msgid "Unknown error"
+msgstr "שגיאה בלתי ידועה"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:118
+msgid "Shell not running"
+msgstr "המעטפת אינה רצה"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:140
+msgid "Shell user-theme extension incorrectly installed"
+msgstr "הרחבת ערכת נושא המשתמש של המעטפת לא הותקנה כראוי"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:143
+msgid "Shell user-theme extension not enabled"
+msgstr "הרחבת ערכת נושא המשתמש של המעטפת לא הופעלה"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:146
+msgid "Could not list shell extensions"
+msgstr "לא ניתן להציג את הרחבות המעטפת"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:175
+#: ../gtweak/tweaks/tweak_group_keymouse.py:47
+msgid "<i>Default</i>"
+msgstr "בררת מחדל"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:181
+msgid "Select a theme"
+msgstr "נא לבחור בערכת נושא"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:230
+#, python-format
+msgid "%s theme updated successfully"
+msgstr "ערכת הנושא %s עודכנה בהצלחה"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:232
+#, python-format
+msgid "%s theme installed successfully"
+msgstr "ערכת הנושא %s הותקנה בהצלחה"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:240
+msgid "Error installing theme"
+msgstr "התקנת ערכת הנושא נכשלה"
+
+#. does not look like a valid theme
+#: ../gtweak/tweaks/tweak_group_interface.py:245
+msgid "Invalid theme"
+msgstr "ערכת נושא שגויה"
+
+#. GSettingsSwitchTweak("Buttons Icons","org.gnome.desktop.interface", "buttons-have-icons"),
+#. GSettingsSwitchTweak("Menu Icons","org.gnome.desktop.interface", "menus-have-icons"),
+#: ../gtweak/tweaks/tweak_group_interface.py:261
+msgid "Theme"
+msgstr "ערכת עיצוב"
+
+#: ../gtweak/tweaks/tweak_group_interface.py:266
+msgid "Enable animations"
+msgstr "לאפשר הנפשות"
+
+#: ../gtweak/tweaks/tweak_group_xkb.py:55
+#: ../gtweak/tweaks/tweak_group_windows.py:143
+msgid "Disabled"
+msgstr "השבתה"
+
+#: ../gtweak/tweaks/tweak_group_xkb.py:161
+msgid "Typing"
+msgstr "הקלדה"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:78
+msgid "Extension downloading"
+msgstr "ההרחבה מתקבלת"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:80
+msgid "Error loading extension"
+msgstr "טעינת ההרחבה נכשלה"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:82
+msgid "Extension does not support shell version"
+msgstr "ההרחבה אינה תומכת בגרסת המעטפת"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:84
+msgid "Unknown extension error"
+msgstr "שגיאת מעטפת בלתי ידועה"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:105
+#: ../gtweak/tweaks/tweak_group_startup.py:229
+msgid "Remove"
+msgstr "הסרה"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:137
+msgid "Uninstall Extension"
+msgstr "הסרת הרחבה"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:138
+#, python-format
+msgid "Do you want to uninstall the '%s' extension?"
+msgstr "האם ברצונך להסיר את ההרחבה '%s'?"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:155
+msgid "Updating"
+msgstr "עדכון"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:166
+msgid "Error"
+msgstr "שגיאה"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:171
+msgid "Update"
+msgstr "מעדכן"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:186
+msgid "Install Shell Extension"
+msgstr "התקנת הרחבת מעטפת"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:191
+msgid "Select an extension"
+msgstr "נא לבחור בהרחבה"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:198
+msgid "Get more extensions"
+msgstr "לקבלת הרחבות נוספות"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:248
+#, python-format
+msgid "%s extension updated successfully"
+msgstr "ההרחבה %s עודכנה בהצלחה"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:250
+#, python-format
+msgid "%s extension installed successfully"
+msgstr "ההרחבה %s הותקנה בהצלחה"
+
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:255
+msgid "Error installing extension"
+msgstr "התקנת ההרחבה נכשלה"
+
+#. does not look like a valid theme
+#: ../gtweak/tweaks/tweak_group_shell_extensions.py:260
+msgid "Invalid extension"
+msgstr "הרחבה שגויה"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:33
+msgid "Show Application Menu"
+msgstr "הצגת תפריט יישום"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:46
+msgid "Workspace Creation"
+msgstr "יצירת שולחן עבודה"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:51
+msgid "Dynamic"
+msgstr "דינמי"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:51
+msgid "Static"
+msgstr "סטטי"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:74
+msgid "Don't suspend on lid close"
+msgstr "אין להשעות עם סגירת המכסה"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:104
+msgid "Clock"
+msgstr "שעון"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:105
+msgid "Show date"
+msgstr "הצגת תאריך"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:106
+msgid "Show seconds"
+msgstr "הצגת שניות"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:107
+msgid "Calendar"
+msgstr "יומן"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:108
+msgid "Show week numbers"
+msgstr "הצגת מספרי שבועות"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:111
+msgid "When Power Button is Pressed"
+msgstr "בעת לחיצה על כפתור כיבוי"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:112
+msgid "Action"
+msgstr "פעולה"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:113
+msgid "When Laptop Lid is Closed"
+msgstr "בעת סגירת מכסה מחשב נייד"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:114
+msgid "On Battery Power"
+msgstr "על סוללה"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:115
+msgid "When plugged in"
+msgstr "כאשר מחובר לחשמל"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:116
+msgid "Suspend even if an external monitor is plugged in"
+msgstr "השהיה גם אם מחובר צג חיצוני"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:121
+msgid "Number of Workspaces"
+msgstr "מספר שולחנות עבודה"
+
+#: ../gtweak/tweaks/tweak_group_shell.py:122
+msgid "Workspaces only on primary display"
+msgstr "שולחן עבודה בלבד בצג ראשי"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:42
+msgid "Applications"
+msgstr "יישומים"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:48
+msgid "Search Applications..."
+msgstr "חיפוש יישומים…"
+
+#. Translators: This is the accelerator for opening the AppChooser search-bar
+#: ../gtweak/tweaks/tweak_group_startup.py:56
+msgid "<primary>f"
+msgstr "<primary>f"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:75
+msgid "running"
+msgstr "פועל"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:85
+msgid "_Close"
+msgstr "_סגירה"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:86
+msgid "_Add"
+msgstr "הו_ספה"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:253
+msgid "New startup application"
+msgstr "יישום הפעלה חדש"
+
+#: ../gtweak/tweaks/tweak_group_startup.py:254
+msgid "Add a new application to be run at startup"
+msgstr "הוספת יישום חדש להפעלה עם הפעלה"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:67
+msgid "Window scaling"
+msgstr "קנה מידה של חלונות"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:67
+msgid "Adjust GDK window scaling factor for HiDPI"
+msgstr "התאמת קנה מידה של חלונות GDK עבור הבחנה גבוהה"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:95
+#, c-format
+msgid "Settings will be reverted in %d second"
+msgid_plural "Settings will be reverted in %d seconds"
+msgstr[0] "ההגדרות תשוחזרנה בעוד שנייה אחת"
+msgstr[1] "ההגדרות תשוחזרנה בעוד %d שניות"
+msgstr[2] "ההגדרות תשוחזרנה בעוד %d שניות"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:111
+msgid "Do you want to keep these HiDPI settings?"
+msgstr "האם ברצונך לשמור הגדרות הבחנה גבוהה אלה?"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:118
+msgid "Revert Settings"
+msgstr "שחזור הגדרות"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:119
+msgid "Keep Changes"
+msgstr "שמירת שינויים"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:137
+msgid "Attached Modal Dialogs"
+msgstr "צירוף דו־שיח מודאלי"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:138
+msgid "Automatically Raise Windows"
+msgstr "העלאת חלונות באופן אוטומטי"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:139
+msgid "Resize with Secondary-click"
+msgstr "שינוי גודל עם לחיצה משנית"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:140
+msgid "Window Action Key"
+msgstr "מקש פעולת חלון"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:144
+msgid "Focus Mode"
+msgstr "מצב מיקוד"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:145
+msgid "Titlebar Actions"
+msgstr "פעולות שורת כותרת"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:146
+msgid "Double-click"
+msgstr "לחיצה כפולה"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:147
+msgid "Middle-click"
+msgstr "לחיצה אמצעית"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:148
+msgid "Secondary-click"
+msgstr "לחיצה משנית"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:149
+msgid "Titlebar Buttons"
+msgstr "לחצני שורת כותרת"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:150
+msgid "Maximize"
+msgstr "הגדלה"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:151
+msgid "Minimize"
+msgstr "מזעור"
+
+#: ../gtweak/tweaks/tweak_group_windows.py:152
+msgid "HiDPI"
+msgstr "הבחנה גבוהה"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:29
+msgid "Middle-click Paste"
+msgstr "הדבקה עם לחיצה אמצעית"
+
+#. Translators: This setting refers to a set of pre-defined key bindings
+#: ../gtweak/tweaks/tweak_group_keymouse.py:41
+msgid "Key theme"
+msgstr "ערכת קיצורים"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:60
+msgid "Keyboard and Mouse"
+msgstr "מקלדת ועכבר"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:61
+msgid "Show All Input Sources"
+msgstr "הצגת כל מקורות הקלט"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:66
+msgid "Switch between overview and desktop"
+msgstr "מעבר בין סקירה ושולחן עבודה"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:69
+msgid "Left super"
+msgstr "‏Super שמאלי"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:69
+msgid "Right super"
+msgstr "‏Super ימני"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:72
+msgid "Acceleration profile"
+msgstr "פרופיל האצה"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:76
+msgid "Show location of pointer"
+msgstr "הדגשת מיקום המצביע"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:82
+msgid "Touchpad"
+msgstr "משטח נגיעה"
+
+#: ../gtweak/tweaks/tweak_group_keymouse.py:83
+msgid "Click method"
+msgstr "שיטת לחיצה"
+
+#: ../gtweak/tweaks/tweak_wacom.py:29
+msgid "Device"
+msgstr "התקן"
+
+#: ../gtweak/tweaks/tweak_wacom.py:38
+msgid "Wacom"
+msgstr "מגע"
+
+#. indicates the default theme, e.g Adwaita (default)
+#: ../gtweak/utils.py:72
+#, python-format
+msgid "%s <i>(default)</i>"
+msgstr "%s (בררת מחדל)"
+
+#: ../gtweak/utils.py:329
+msgid "Configuration changes require restart"
+msgstr "ההגדרות ששונו דורשות הפעלה מחדש"
+
+#: ../gtweak/utils.py:330
+msgid "Your session needs to be restarted for settings to take effect"
+msgstr "יש להפעיל מחדש את ההפעלה על מנת שההגדרות תכנסנה לתוקף"
+
+#: ../gtweak/utils.py:334
+msgid "Restart Session"
+msgstr "הפעלה מחדש"
+
+#: ../gtweak/widgets.py:476
+msgid "Enable dark theme for all applications"
+msgstr "אפשור ערכת נושא כהה עבור כל היישומים"
+
+#: ../gtweak/widgets.py:477
+msgid "Enable the dark theme hint for all the applications in the session"
+msgstr "אפשור ערכת נושא כהה עבור כל היישומים בהפעלה"
+
+#: ../gtweak/widgets.py:485
+msgid "Global Dark Theme"
+msgstr "ערכת נושא כהה כללית"
+
+#: ../gtweak/widgets.py:486
+msgid "Applications need to be restarted for change to take effect"
+msgstr "יש להפעיל מחדש יישומים כדי שהשינויים ייכנסו לתוקף"
+
+#: ../gtweak/widgets.py:512
+msgid "Error writing setting"
+msgstr "כתיבת ההגדרה נכשלה"
+
+#~ msgid "About GNOME Tweak Tool"
+#~ msgstr "על אודות כלי ההתאמות"
+
+#~ msgid "Power Button Action"
+#~ msgstr "פעולת כפתור כיבוי"
+
+#~ msgid "Add Application"
+#~ msgstr "הוספת יישום"
+
+#~ msgid "Window"
+#~ msgstr "חלון"
+
+#~ msgid "Super left"
+#~ msgstr "‏Suprt שמאלי"
+
+#~ msgid "Super right"
+#~ msgstr "‏Super ימני"
+
+#~ msgid "_Help"
+#~ msgstr "_עזרה"
+
+#~ msgid "_About Tweak Tool"
+#~ msgstr "על _אודות כלי ההתאמות"
+
+#~ msgid "The shell must be restarted for changes to take effect"
+#~ msgstr "יש להפעיל את המעטפת מחדש כדי שהשינויים ייכנסו לתוקף"
+
+#~ msgid ""
+#~ "Disable gnome-shell dynamic workspace management, use static workspaces"
+#~ msgstr ""
+#~ "השבתת ניהול שולחנות עבודה דינמיים במעטפת, שימוש בשולחנות עבודה סטטיים"
+
+#~ msgid "All"
+#~ msgstr "הכל"
+
+#~ msgid "Whether to turn off specific monitors after boot"
+#~ msgstr "האם לכבות מסך מסוים לאחר אתחול"
+
+#~ msgid "Key"
+#~ msgstr "פריסה"
+
+#~ msgid "Attach modal dialog to the parent window"
+#~ msgstr "צרף דו־שיח לחלון האב"
+
+#~ msgid "Whether to resize with the right button"
+#~ msgstr "האם לשנות את הגודל עם לחצן ימני"
+
+#~ msgid "welcome"
+#~ msgstr "ברוך בורך"
+
+#~ msgid "Icon theme"
+#~ msgstr "ערכת עיצוב לסמלים"
+
+#~ msgid "Keybinding theme"
+#~ msgstr "ערכת קיצורי מקשרים"
+
+#~ msgid "Shell"
+#~ msgstr "מעטפת"
+
+#~ msgid "Shell Extensions"
+#~ msgstr "הרחבות מעטפת"
+
+#~ msgid "File Manager"
+#~ msgstr "מנהל קבצים"
+
+#~ msgid "The shell may need to be restarted to apply the theme"
+#~ msgstr "יש להפעיל את המעטפת מחדש כדי להחיל את ערכת הנושא"
