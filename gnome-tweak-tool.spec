@@ -4,7 +4,7 @@
 
 Name:           gnome-tweak-tool
 Version:        3.22.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A tool to customize advanced GNOME 3 options
 
 License:        GPLv3
@@ -19,6 +19,8 @@ Patch4: 0005-ExtensionInstaller-load-extension-after-installing-i.patch
 Patch5: 0006-shell_extensions-SESSION_MODE-extensions-can-t-be-en.patch
 Patch6: 0007-GSettingsFontButtonTweak-filter-out-fonts-that-gtk-3.patch
 Patch7: 0008-font-Remove-document-font-tweak-since-nothing-honors.patch
+# https://gitlab.gnome.org/GNOME/gnome-tweaks/commit/34d6d451d7c25482c65c09220ef979aae8101d9d
+Patch8: gnome-tweak-tool-remove-scaling-factor.patch
 
 BuildArch:      noarch
 BuildRequires:  intltool
@@ -60,6 +62,7 @@ Features:
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 autoreconf -i -f
 
@@ -125,6 +128,10 @@ fi
 
 
 %changelog
+* Fri Apr 13 2018 Kalev Lember <klember@redhat.com> - 3.22.0-2
+- Remove scaling factor setting, moved to control-center in RHEL 7.5
+- Resolves: #1567040
+
 * Thu Sep 22 2016 Kalev Lember <klember@redhat.com> - 3.22.0-1
 - Update to 3.22.0
 

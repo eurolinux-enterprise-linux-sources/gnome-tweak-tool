@@ -1,0 +1,11 @@
+--- gnome-tweak-tool-3.22.0/gtweak/tweaks/tweak_group_windows.py.orig	2018-04-13 12:42:27.193024555 +0200
++++ gnome-tweak-tool-3.22.0/gtweak/tweaks/tweak_group_windows.py	2018-04-13 12:42:43.881023015 +0200
+@@ -149,8 +149,6 @@
+         Title(_("Titlebar Buttons"), "", uid="title-theme"),
+         ShowWindowButtons(_("Maximize"), "maximize"),
+         ShowWindowButtons(_("Minimize"), "minimize"),
+-        Title(_("HiDPI"), "", uid="title-hidpi"),
+-        WindowScalingFactorTweak(),
+     )
+ ]
+ 
