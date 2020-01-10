@@ -1,12 +1,25 @@
 # Copyright (c) 2013 Red Hat, Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, see <http://www.gnu.org/licenses/>.
+#
 # Author: Joaquim Rocha <jrocha@redhat.com>
-# SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0
+#
 
 from gtweak.tweakmodel import TweakGroup
 from gtweak.widgets import GSettingsSwitchTweak
 import subprocess
-import configparser
+import ConfigParser
 import io
 
 def N_(x): return x
@@ -88,10 +101,10 @@ class WacomConfigs(object):
                 match_id = config.get(DEVICE_SECTION, DEVICE_MATCH_LINE)
                 # Use a dict to discard possible repeated devices
                 configs_dict[match_id] = config
-        return list(configs_dict.values())
+        return configs_dict.values()
 
     def _text_to_config(self, text):
-        config = configparser.RawConfigParser(allow_no_value=True)
+        config = ConfigParser.RawConfigParser(allow_no_value=True)
         config.readfp(io.BytesIO(text))
         return config
 

@@ -1,6 +1,19 @@
+# This file is part of gnome-tweak-tool.
+#
 # Copyright (c) 2011 John Stowers
-# SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0
+#
+# gnome-tweak-tool is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# gnome-tweak-tool is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with gnome-tweak-tool.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
 import glob
@@ -8,14 +21,23 @@ import os.path
 
 import gtweak
 from gtweak.utils import SchemaList, LogoutNotification, Notification
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk
 
 def N_(x): return x
 
-LOG = logging.getLogger(__name__)
+TWEAK_GROUP_APPEARANCE = _("Appearance")
+TWEAK_GROUP_EXTENSION = _("Extensions")
+TWEAK_GROUP_FONTS = _("Fonts")
+TWEAK_GROUP_POWER = _("Power")
+TWEAK_GROUP_APPLICATION = _("Startup Applications")
+TWEAK_GROUP_TOPBAR = _("Top Bar")
+TWEAK_GROUP_WINDOWS = _("Windows")
+TWEAK_GROUP_WORKSPACES = _("Workspaces")
 
-def string_for_search(s):
-    return GLib.utf8_casefold(GLib.utf8_normalize(s, -1, GLib.NormalizeMode.ALL), -1)
+TWEAK_GROUP_MOUSE = _("Mouse")
+TWEAK_GROUP_FILES = _("Files")
+
+LOG = logging.getLogger(__name__)
 
 class Tweak(object):
 
@@ -35,10 +57,10 @@ class Tweak(object):
 
     def search_matches(self, txt):
         if self._search_cache == None:
-            self._search_cache = string_for_search(self.name) + " " + \
-				 string_for_search(self.description)
+            self._search_cache = self.name.decode("utf-8","ignore").lower() + " " + \
+				 self.description.decode("utf-8","ignore").lower()
             try:
-                self._search_cache += " " + string_for_search(self.extra_info)
+                self._search_cache += " " + self.extra_info.decode("utf-8","ignore").lower()
             except:
                 LOG.warning("Error adding search info", exc_info=True)
         return  txt in self._search_cache
@@ -55,7 +77,6 @@ class TweakGroup(object):
 
     def __init__(self, name, *tweaks, **options):
         self.name = name
-        self.titlebar_widget = None
         self.tweaks = [t for t in tweaks if t.loaded]
         self.uid = options.get('uid', self.__class__.__name__)
 
@@ -66,7 +87,7 @@ class TweakGroup(object):
 
 class TweakModel(Gtk.ListStore):
     (COLUMN_NAME,
-     COLUMN_TWEAK) = list(range(2))
+     COLUMN_TWEAK) = range(2)
 
     def __init__(self):
         super(TweakModel, self).__init__(str, object)
@@ -97,16 +118,16 @@ class TweakModel(Gtk.ListStore):
                 tweak_files.remove("tweak_group_test")
             except ValueError:
                 pass
-
+        
         groups = []
         tweaks = []
 
         mods = __import__("gtweak.tweaks", globals(), locals(), tweak_files, 0)
         for mod in [getattr(mods, file_name) for file_name in tweak_files]:
             groups.extend( getattr(mod, "TWEAK_GROUPS", []) )
-
-        schemas = SchemaList()
-
+            
+        schemas = SchemaList() 
+   
         for g in groups:
             g.main_window = main_window
             if g.tweaks:
@@ -128,16 +149,17 @@ class TweakModel(Gtk.ListStore):
         self._tweak_group_iters[tweakgroup.name] = _iter
 
     def search_matches(self, txt):
-        tweaks = []
-        groups = []
-
+        tweaks = []                                          
+        groups = []                                                             
+        
         for g in self.tweak_groups:
-            for t in  g.tweaks:
-                if t.search_matches(txt):
+            for t in  g.tweaks:                                             
+                if t.search_matches(txt): 
                     tweaks.append(t)
-                    if not g.name in groups:
+                    if not g.name in groups:                          
                         groups.append(g.name)
-        return tweaks, groups
+        return tweaks, groups 
 
     def get_tweakgroup_iter(self, name):
         return self._tweak_group_iters[name]
+        

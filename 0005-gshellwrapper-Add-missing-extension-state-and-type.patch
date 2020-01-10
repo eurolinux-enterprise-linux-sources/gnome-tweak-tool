@@ -1,0 +1,31 @@
+From 709bf2c0f175c03669e65cc2e0b34f5c357df29c Mon Sep 17 00:00:00 2001
+From: Rui Matos <tiagomatos@gmail.com>
+Date: Tue, 7 Apr 2015 20:43:23 +0200
+Subject: [PATCH 05/12] gshellwrapper: Add missing extension state and type
+
+---
+ gtweak/gshellwrapper.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/gtweak/gshellwrapper.py b/gtweak/gshellwrapper.py
+index ca7e7c0..9d0ccdd 100644
+--- a/gtweak/gshellwrapper.py
++++ b/gtweak/gshellwrapper.py
+@@ -87,11 +87,13 @@ class GnomeShell:
+         "OUT_OF_DATE"   :   4,
+         "DOWNLOADING"   :   5,
+         "INITIALIZED"   :   6,
++        "UNINSTALLED"   :   99,
+     }
+ 
+     EXTENSION_TYPE = {
+         "SYSTEM"        :   1,
+-        "PER_USER"      :   2
++        "PER_USER"      :   2,
++        "SESSION_MODE"  :   3,
+     }
+ 
+     DATA_DIR = os.path.join(GLib.get_user_data_dir(), "gnome-shell")
+-- 
+2.3.6
+

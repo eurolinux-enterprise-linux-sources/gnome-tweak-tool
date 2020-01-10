@@ -1,6 +1,19 @@
+# This file is part of gnome-tweak-tool.
+#
 # Copyright (c) 2011 John Stowers
-# SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0
+#
+# gnome-tweak-tool is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# gnome-tweak-tool is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with gnome-tweak-tool.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
 import os.path
@@ -15,22 +28,15 @@ _SCHEMA_CACHE = {}
 _GSETTINGS_SCHEMAS = set(Gio.Settings.list_schemas())
 _GSETTINGS_RELOCATABLE_SCHEMAS = set(Gio.Settings.list_relocatable_schemas())
 
-
 class GSettingsMissingError(Exception):
     pass
 
-
 class _GSettingsSchema:
     def __init__(self, schema_name, schema_dir=None, schema_filename=None, **options):
-        if not schema_filename:
-            schema_filename = schema_name + ".gschema.xml"
         if not schema_dir:
             schema_dir = gtweak.GSETTINGS_SCHEMA_DIR
-            for xdg_dir in GLib.get_system_data_dirs():
-                dir = os.path.join(xdg_dir, "glib-2.0", "schemas")
-                if os.path.exists(os.path.join(dir, schema_filename)):
-                    schema_dir = dir
-                    break
+        if not schema_filename:
+            schema_filename = schema_name + ".gschema.xml"
 
         schema_path = os.path.join(schema_dir, schema_filename)
         if not os.path.exists(schema_path):
@@ -66,20 +72,19 @@ class _GSettingsSchema:
                 if schema_name == schema.getAttribute("id"):
                     for key in schema.getElementsByTagName("key"):
                         name = key.getAttribute("name")
-                        # summary is 'compulsory', description is optional
-                        # …in theory, but we should not barf on bad schemas ever
+                        #summary is 'compulsory', description is optional
+                        #... in theory, but we should not barf on bad schemas ever
                         try:
                             summary = key.getElementsByTagName("summary")[0].childNodes[0].data
                         except:
                             summary = ""
-                            logging.info("Schema missing summary %s (key %s)" %
-                                         (os.path.basename(schema_path), name))
+                            logging.info("Schema missing summary %s (key %s)" % (os.path.basename(schema_path),name))
                         try:
                             description = key.getElementsByTagName("description")[0].childNodes[0].data
                         except:
                             description = ""
 
-                        # if missing translations, use the untranslated values
+                        #if missing translations, use the untranslated values
                         self._schema[name] = dict(
                             summary=translation.gettext(summary) if translation else summary,
                             description=translation.gettext(description) if translation else description
@@ -90,7 +95,6 @@ class _GSettingsSchema:
 
     def __repr__(self):
         return "<gtweak.gsettings._GSettingsSchema: %s>" % self._schema_name
-
 
 class GSettingsFakeSetting:
     def __init__(self):
@@ -106,7 +110,6 @@ class GSettingsFakeSetting:
         def noop(*args, **kwargs):
             pass
         return noop
-
 
 class GSettingsSetting(Gio.Settings):
     def __init__(self, schema_name, schema_dir=None, schema_path=None, **options):
@@ -143,7 +146,7 @@ class GSettingsSetting(Gio.Settings):
             self.connect("changed", self._on_changed)
 
     def _on_changed(self, settings, key_name):
-        print("Change: %s %s -> %s" % (self.props.schema, key_name, self[key_name]))
+        print "Change: %s %s -> %s" % (self.props.schema, key_name, self[key_name])
 
     def _setting_check_is_list(self, key):
         variant = Gio.Settings.get_value(self, key)
@@ -151,7 +154,7 @@ class GSettingsSetting(Gio.Settings):
 
     def schema_get_summary(self, key):
         return self._schema._schema[key]["summary"]
-
+        
     def schema_get_description(self, key):
         return self._schema._schema[key]["description"]
 
@@ -178,7 +181,7 @@ class GSettingsSetting(Gio.Settings):
             self[key] = vals
             return True
         except ValueError:
-            # not present
+            #not present
             pass
 
     def setting_is_in_list(self, key, value):
@@ -190,7 +193,7 @@ if __name__ == "__main__":
 
     key = "draw-background"
     s = GSettingsSetting("org.gnome.desktop.background")
-    print(s.schema_get_summary(key), s.schema_get_description(key))
+    print s.schema_get_summary(key), s.schema_get_description(key)
 
     key = "disabled-extensions"
     s = GSettingsSetting("org.gnome.shell")

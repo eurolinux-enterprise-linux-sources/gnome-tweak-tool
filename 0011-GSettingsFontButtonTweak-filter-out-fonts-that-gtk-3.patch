@@ -1,0 +1,37 @@
+From d20a3748934b979d63fa061f1afa7b9f452c8474 Mon Sep 17 00:00:00 2001
+From: Rui Matos <tiagomatos@gmail.com>
+Date: Thu, 5 Dec 2013 23:07:41 +0100
+Subject: [PATCH 11/12] GSettingsFontButtonTweak: filter out fonts that gtk+ 3
+ doesn't honor
+
+---
+ gtweak/widgets.py | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/gtweak/widgets.py b/gtweak/widgets.py
+index fb016fe..38a50f3 100644
+--- a/gtweak/widgets.py
++++ b/gtweak/widgets.py
+@@ -284,7 +284,19 @@ class GSettingsFontButtonTweak(Gtk.Box, _GSettingsTweak, _DependableMixin):
+         Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
+         _GSettingsTweak.__init__(self, name, schema_name, key_name, **options)
+ 
++        def font_filter(family, face, data):
++            desc = face.describe()
++            if (desc.get_style() != Pango.Style.NORMAL or
++                desc.get_variant() != Pango.Variant.NORMAL or
++                desc.get_weight() != Pango.Weight.NORMAL or
++                desc.get_stretch() != Pango.Stretch.NORMAL):
++                return False
++            else:
++                return True
++
+         w = Gtk.FontButton()
++        if key_name == "font-name":
++            w.set_filter_func(font_filter, None)
+         self.settings.bind(key_name, w, "font-name", Gio.SettingsBindFlags.DEFAULT)
+         build_label_beside_widget(name, w, hbox=self)
+         self.widget_for_size_group = w
+-- 
+2.3.6
+

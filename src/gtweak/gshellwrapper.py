@@ -1,6 +1,19 @@
+# This file is part of gnome-tweak-tool.
+#
 # Copyright (c) 2011 John Stowers
-# SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0
+#
+# gnome-tweak-tool is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# gnome-tweak-tool is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with gnome-tweak-tool.  If not, see <http://www.gnu.org/licenses/>.
 
 import os.path
 import json
@@ -11,7 +24,6 @@ from gi.repository import GLib
 
 import gtweak.utils
 from gtweak.gsettings import GSettingsSetting
-
 
 class _ShellProxy:
     def __init__(self):
@@ -24,7 +36,7 @@ class _ShellProxy:
                             'org.gnome.Shell',
                             None)
 
-        # GNOME Shell > 3.5 added a separate extension interface
+        #GNOME Shell > 3.5 added a separate extension interface
         self.proxy_extensions = Gio.DBusProxy.new_sync(
                             d, 0, None,
                             'org.gnome.Shell',
@@ -32,7 +44,7 @@ class _ShellProxy:
                             'org.gnome.Shell.Extensions',
                             None)
 
-        # GNOME Shell > 3.7.2 added the Mode to the DBus API
+        #GNOME Shell > 3.7.2 added the Mode to the DBus API
         val = self.proxy.get_cached_property("Mode")
         if val is not None:
             self._mode = val.unpack()
@@ -45,7 +57,7 @@ class _ShellProxy:
                 logging.warning("Error getting shell mode via Eval JS")
                 self._mode = "user"
 
-        # GNOME Shell > 3.3 added the Version to the DBus API and disabled execute_js
+        #GNOME Shell > 3.3 added the Version to the DBus API and disabled execute_js
         val = self.proxy.get_cached_property("ShellVersion")
         if val is not None:
             self._version = val.unpack()
@@ -65,7 +77,6 @@ class _ShellProxy:
     @property
     def version(self):
         return self._version
-
 
 class GnomeShell:
 
@@ -144,7 +155,6 @@ class GnomeShell34(GnomeShell32):
     def uninstall_extension(self, uuid):
         return self._proxy.proxy.UninstallExtension('(s)', uuid)
 
-
 class GnomeShell36(GnomeShell34):
 
     def list_extensions(self):
@@ -154,9 +164,7 @@ class GnomeShell36(GnomeShell34):
         return self._proxy.proxy_extensions.UninstallExtension('(s)', uuid)
 
     def install_remote_extension(self, uuid, reply_handler, error_handler, user_data):
-        self._proxy.proxy_extensions.InstallRemoteExtension('(s)', uuid,
-            result_handler=reply_handler, error_handler=error_handler, user_data=user_data)
-
+        self._proxy.proxy_extensions.InstallRemoteExtension('(s)', uuid, result_handler=reply_handler, error_handler=error_handler, user_data=user_data)
 
 @gtweak.utils.singleton
 class GnomeShellFactory:
@@ -164,15 +172,14 @@ class GnomeShellFactory:
         try:
             proxy = _ShellProxy()
             settings = GSettingsSetting("org.gnome.shell")
-            v = list(map(int, proxy.version.split(".")))
+            v = map(int,proxy.version.split("."))
 
-            if v >= [3, 5, 0]:
+            if v >= [3,5,0]:
                 self.shell = GnomeShell36(proxy, settings)
             elif v >= [3,3,2]:
                 self.shell = GnomeShell34(proxy, settings)
             elif v >= [3,1,4]:
                 self.shell = GnomeShell32(proxy, settings)
-
             else:
                 logging.warn("Shell version not supported")
                 self.shell = None
@@ -191,7 +198,7 @@ if __name__ == "__main__":
     logging.basicConfig(format="%(levelname)-8s: %(message)s", level=logging.DEBUG)
 
     s = GnomeShellFactory().get_shell()
-    print("Shell Version: %s" % s.version)
-    print(s.list_extensions())
+    print "Shell Version: %s" % s.version
+    print s.list_extensions()
 
-    print(s == GnomeShellFactory().get_shell())
+    print s == GnomeShellFactory().get_shell()

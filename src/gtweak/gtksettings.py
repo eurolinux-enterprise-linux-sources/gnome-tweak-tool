@@ -1,6 +1,19 @@
+# This file is part of gnome-tweak-tool.
+#
 # Copyright (c) 2012 Cosimo Cecchi
-# SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0
+#
+# gnome-tweak-tool is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# gnome-tweak-tool is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with gnome-tweak-tool.  If not, see <http://www.gnu.org/licenses/>.
 
 import os.path
 import logging
@@ -13,13 +26,12 @@ SETTINGS_GROUP_NAME = "Settings"
 
 LOG = logging.getLogger(__name__)
 
+@gtweak.utils.singleton
 class GtkSettingsManager:
-    def __init__(self, version):
+    def __init__(self):
         self._path = os.path.join(GLib.get_user_config_dir(),
-                                  "gtk-" + version,
+                                  "gtk-3.0",
                                   "settings.ini")
-        os.makedirs(os.path.dirname(self._path), exist_ok=True)
-
     def _get_keyfile(self):
         keyfile = None
         try:
@@ -45,6 +57,6 @@ class GtkSettingsManager:
 
         try:
             data = keyfile.to_data()
-            GLib.file_set_contents(self._path, data[0].encode())
+            GLib.file_set_contents(self._path, data[0])
         except:
             raise

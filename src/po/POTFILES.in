@@ -1,21 +1,18 @@
 # List of source files which contain translatable strings.
-data/org.gnome.tweaks.appdata.xml.in
-data/org.gnome.tweaks.desktop.in
-data/shell.ui
+data/gnome-tweak-tool.appdata.xml.in
+data/gnome-tweak-tool.desktop.in
+[type: gettext/glade]data/shell.ui
 gtweak/app.py
 gtweak/tweakmodel.py
 gtweak/tweakview.py
-gtweak/tweaks/tweak_group_appearance.py
 gtweak/tweaks/tweak_group_desktop.py
 gtweak/tweaks/tweak_group_font.py
+gtweak/tweaks/tweak_group_interface.py
 gtweak/tweaks/tweak_group_xkb.py
-gtweak/tweaks/tweak_group_power.py
 gtweak/tweaks/tweak_group_shell_extensions.py
+gtweak/tweaks/tweak_group_shell.py
 gtweak/tweaks/tweak_group_startup.py
-gtweak/tweaks/tweak_group_sound.py
-gtweak/tweaks/tweak_group_top_bar.py
 gtweak/tweaks/tweak_group_windows.py
-gtweak/tweaks/tweak_group_workspaces.py
 gtweak/tweaks/tweak_group_keymouse.py
 gtweak/tweaks/tweak_wacom.py
 gtweak/utils.py

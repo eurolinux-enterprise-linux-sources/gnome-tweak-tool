@@ -1,6 +1,19 @@
+# This file is part of gnome-tweak-tool.
+#
 # Copyright (c) 2011 John Stowers
-# SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0
+#
+# gnome-tweak-tool is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# gnome-tweak-tool is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with gnome-tweak-tool.  If not, see <http://www.gnu.org/licenses/>.
 
 import os.path
 import logging
@@ -8,13 +21,10 @@ import tempfile
 import shutil
 import subprocess
 import glob
-import itertools
 
 import gtweak
 from gtweak.gsettings import GSettingsSetting
 
-import gi
-gi.require_version("Notify", "0.7")
 from gi.repository import GObject
 from gi.repository import GLib
 from gi.repository import Gio
@@ -99,27 +109,10 @@ def extract_zip_file(z, members_path, dest):
 def execute_subprocess(cmd_then_args, block=True):
     p = subprocess.Popen(
             cmd_then_args,
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True,
-            universal_newlines=True)
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
     if block:
         stdout, stderr = p.communicate()
         return stdout, stderr, p.returncode
-
-def get_resource_dirs(resource):
-    """Returns a list of all known resource dirs for a given resource.
-
-    :param str resource:
-        Name of the resource (e.g. "themes")
-    :return:
-        A list of resource dirs
-    """
-    dirs = [os.path.join(dir, resource)
-            for dir in itertools.chain(GLib.get_system_data_dirs(),
-                                       (gtweak.DATA_DIR,
-                                        GLib.get_user_data_dir()))]
-    dirs += [os.path.join(os.path.expanduser("~"), ".{}".format(resource))]
-
-    return [dir for dir in dirs if os.path.isdir(dir)]
 
 @singleton
 class AutostartManager:
@@ -132,7 +125,7 @@ class AutostartManager:
     def get_user_autostart_files():
         return glob.glob(
                     os.path.join(
-                        GLib.get_user_config_dir(), "autostart", "*.desktop"))
+                        GLib.get_user_config_dir(), "autostart", "*.desktop")) 
 
     @staticmethod
     def get_system_autostart_files():
@@ -143,37 +136,22 @@ class AutostartManager:
 
 class AutostartFile:
     def __init__(self, appinfo, autostart_desktop_filename="", exec_cmd="", extra_exec_args=""):
-        if appinfo:
-            self._desktop_file = appinfo.get_filename()
-            self._autostart_desktop_filename = autostart_desktop_filename or os.path.basename(self._desktop_file)
-            self._create_file = False
-        elif autostart_desktop_filename:
-            self._desktop_file = None
-            self._autostart_desktop_filename = autostart_desktop_filename
-            self._create_file = True
-        else:
-            raise Exception("Need either an appinfo or a file name")
-
+        self._desktop_file = appinfo.get_filename()
+        self._autostart_desktop_filename = autostart_desktop_filename or os.path.basename(self._desktop_file)
         self._exec_cmd = exec_cmd
-        if extra_exec_args:
-            self._extra_exec_args = " %s\n" % extra_exec_args
-        else:
-            self._extra_exec_args = "\n"
+        self._extra_exec_args = " %s\n" % extra_exec_args
 
         user_autostart_dir = os.path.join(GLib.get_user_config_dir(), "autostart")
-        os.makedirs(user_autostart_dir, exist_ok=True)
+        if not os.path.isdir(user_autostart_dir):
+            try:
+                os.makedirs(user_autostart_dir)
+            except:
+                logging.critical("Could not create autostart dir: %s" % user_autostart_dir)
 
         self._user_autostart_file = os.path.join(user_autostart_dir, self._autostart_desktop_filename)
 
-        if self._desktop_file:
-            logging.debug("Found desktop file: %s" % self._desktop_file)
+        logging.debug("Found desktop file: %s" % self._desktop_file)
         logging.debug("User autostart desktop file: %s" % self._user_autostart_file)
-
-    def _create_user_autostart_file(self):
-        f = open(self._user_autostart_file, "w")
-        f.write("[Desktop Entry]\nType=Application\nName=%s\nExec=%s\n" %
-                (self._autostart_desktop_filename[0:-len('.desktop')], self._exec_cmd + self._extra_exec_args))
-        f.close()
 
     def is_start_at_login_enabled(self):
         if os.path.exists(self._user_autostart_file):
@@ -197,10 +175,7 @@ class AutostartFile:
 
         if update:
             if (not self._desktop_file) or (not os.path.exists(self._desktop_file)):
-                if self._create_file:
-                    self._create_user_autostart_file()
-                else:
-                    logging.critical("Could not find desktop file: %s" % self._desktop_file)
+                logging.critical("Could not find desktop file: %s" % self._desktop_file)
                 return
 
             logging.info("Adding autostart %s" % self._user_autostart_file)
@@ -208,7 +183,7 @@ class AutostartFile:
             old = open(self._desktop_file, "r")
             new = open(self._user_autostart_file, "w")
 
-            for l in old.readlines():
+            for l in old.readlines():         
                 if l.startswith("Exec="):
                     if self._exec_cmd:
                         new.write("Exec=%s\n" % self._exec_cmd)
@@ -229,28 +204,28 @@ class SchemaList:
 
         if SchemaList.__list == None:
             SchemaList.__list = []
-
+            
     def get(self):
         return SchemaList.__list
-
+    
     def insert(self, key_name, schema_name):
         v = [key_name, schema_name]
         SchemaList.__list.append(v)
-
+    
     def reset(self):
         for i in SchemaList.__list:
             s = Gio.Settings(i[1])
             s.reset(i[0])
 @singleton
 class DisableExtension(GObject.GObject):
-
+    
     __gsignals__ = {
-        "disable-extension": (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,()),
-    }
-
+        "disable-extension": (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,()),
+    }    
+    
     def __init__(self):
         GObject.GObject.__init__(self)
-
+    
     def disable(self):
         self.emit("disable-extension")
 
@@ -269,7 +244,7 @@ class XSettingsOverrides:
 
     def _dup_variant_as_dict(self):
         items = {}
-        for k in list(self._variant.keys()):
+        for k in self._variant.keys():
             try:
                 #variant override doesnt support .items()
                 v = self._variant[k]
@@ -312,15 +287,15 @@ class XSettingsOverrides:
 
 class Notification:
     def __init__(self, summary, body):
-        if Notify.is_initted() or Notify.init(_("GNOME Tweaks")):
+        if Notify.is_initted() or Notify.init("GNOME Tweak Tool"):
             self.notification = Notify.Notification.new(
                                     summary,
                                     body,
-                                    'gnome-tweaks'
+                                    'gnome-tweak-tool'
             )
             self.notification.set_hint(
                                 "desktop-entry",
-                                GLib.Variant('s', 'org.gnome.tweaks'))
+                                GLib.Variant('s', 'gnome-tweak-tool'))
             self.notification.show()
         else:
             raise Exception("Not Supported")
@@ -328,18 +303,18 @@ class Notification:
 @singleton
 class LogoutNotification:
     def __init__(self):
-        if Notify.is_initted() or Notify.init(_("GNOME Tweaks")):
+        if Notify.is_initted() or Notify.init("GNOME Tweak Tool"):
             self.notification = Notify.Notification.new(
-                                _("Configuration changes require restart"),
-                                _("Your session needs to be restarted for settings to take effect"),
-                                'gnome-tweaks')
+                                "Configuration changes requiere restart",
+                                "Your session needs to be restarted for settings to take effect",
+                                'gnome-tweak-tool')
             self.notification.add_action(
                                 "restart",
-                                _("Restart Session"),
+                                "Restart Session",
                                 self._logout, None, None)
             self.notification.set_hint(
                                 "desktop-entry",
-                                GLib.Variant('s', 'org.gnome.tweaks'))
+                                GLib.Variant('s', 'gnome-tweak-tool'))
             self.notification.show()
         else:
             raise Exception("Not Supported")
@@ -348,8 +323,9 @@ class LogoutNotification:
         d = Gio.bus_get_sync(Gio.BusType.SESSION, None)
         proxy = Gio.DBusProxy.new_sync(
                        d,Gio.DBusProxyFlags.NONE, None,
-                       'org.gnome.SessionManager',
-                       '/org/gnome/SessionManager',
+                       'org.gnome.SessionManager', 
+                       '/org/gnome/SessionManager', 
                        'org.gnome.SessionManager',
                        None)
         proxy.Logout('(u)', 0)
+

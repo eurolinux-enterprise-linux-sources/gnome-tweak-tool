@@ -1,0 +1,53 @@
+From b2bee94b2e17a5f34c289c12f232fcd413738bf0 Mon Sep 17 00:00:00 2001
+From: Rui Matos <tiagomatos@gmail.com>
+Date: Wed, 8 Apr 2015 11:52:36 +0200
+Subject: [PATCH 08/12] shell_extensions: Add a sort func to keep the list
+ ordered
+
+---
+ gtweak/tweaks/tweak_group_shell_extensions.py | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/gtweak/tweaks/tweak_group_shell_extensions.py b/gtweak/tweaks/tweak_group_shell_extensions.py
+index 25bfaf4..c8af468 100644
+--- a/gtweak/tweaks/tweak_group_shell_extensions.py
++++ b/gtweak/tweaks/tweak_group_shell_extensions.py
+@@ -304,16 +304,17 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
+                 logging.warning("Error listing extensions", exc_info=True)
+         except:
+             logging.warning("Error detecting shell", exc_info=True)
+-        
++
+         #add the extension installer
+         extension_tweaks.append(
+                 _ShellExtensionInstallerTweak(shell, size_group=sg))
+-            
++
+         ListBoxTweakGroup.__init__(self,
+                                    _("Extensions"),
+                                    *extension_tweaks)
+-        
++
+         self.set_header_func(self._list_header_func, None)
++        self.set_sort_func(self._list_sort_func, None)
+ 
+     def _got_info(self, ego, resp, uuid, extension, widget):
+         if uuid == extension["uuid"]:
+@@ -335,6 +336,14 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
+         if before and not row.get_header():
+             row.set_header (Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL))
+ 
++    def _list_sort_func(self, row1, row2, user_data):
++        if isinstance(row1.get_child(), _ShellExtensionInstallerTweak):
++            return 1
++        if isinstance(row2.get_child(), _ShellExtensionInstallerTweak):
++            return -1
++
++        return cmp(row1.name, row2.name)
++
+     def _on_extension_status_changed(self, shell, uuid, state, error):
+         if uuid not in self._uuids:
+             self._add_extension(uuid)
+-- 
+2.3.6
+

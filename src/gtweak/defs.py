@@ -1,0 +1,6 @@
+DATA_DIR = "/home/rmatos/Source/git.gnome.org/install/share"
+PKG_DATA_DIR = "/home/rmatos/Source/git.gnome.org/install/share/gnome-tweak-tool"
+GSETTINGS_SCHEMA_DIR = "/home/rmatos/Source/git.gnome.org/install/share/glib-2.0/schemas"
+TWEAK_DIR = "/home/rmatos/Source/git.gnome.org/install/lib/python2.7/site-packages/gtweak/tweaks"
+VERSION = "3.14.3"
+LOCALE_DIR = "/home/rmatos/Source/git.gnome.org/install/share/locale"

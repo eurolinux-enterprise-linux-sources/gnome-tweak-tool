@@ -1,0 +1,25 @@
+From dd77db00358679f0253dde1f24c2d9b2760b0833 Mon Sep 17 00:00:00 2001
+From: Rui Matos <tiagomatos@gmail.com>
+Date: Fri, 6 Dec 2013 14:43:23 +0100
+Subject: [PATCH 12/12] font: Remove document font tweak since nothing honors
+ it
+
+---
+ gtweak/tweaks/tweak_group_font.py | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/gtweak/tweaks/tweak_group_font.py b/gtweak/tweaks/tweak_group_font.py
+index eebd5c8..28dbecf 100644
+--- a/gtweak/tweaks/tweak_group_font.py
++++ b/gtweak/tweaks/tweak_group_font.py
+@@ -24,7 +24,6 @@ TWEAK_GROUPS = [
+     ListBoxTweakGroup(TWEAK_GROUP_FONTS,
+         GSettingsFontButtonTweak(_("Window Titles"),"org.gnome.desktop.wm.preferences", "titlebar-font"),
+         GSettingsFontButtonTweak(_("Interface"),"org.gnome.desktop.interface", "font-name"),
+-        GSettingsFontButtonTweak(_("Documents"), "org.gnome.desktop.interface", "document-font-name"),
+         GSettingsFontButtonTweak(_("Monospace"), "org.gnome.desktop.interface", "monospace-font-name"),
+         GSettingsComboTweak(_("Hinting"),"org.gnome.settings-daemon.plugins.xsettings", "hinting",
+                             [(i, i.title()) for i in ("none", "slight", "medium", "full")]),
+-- 
+2.3.6
+

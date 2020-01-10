@@ -1,6 +1,19 @@
+# This file is part of gnome-tweak-tool.
+#
 # Copyright (c) 2011 John Stowers
-# SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0
+#
+# gnome-tweak-tool is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# gnome-tweak-tool is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with gnome-tweak-tool.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
 import os.path
@@ -40,7 +53,7 @@ def build_label_beside_widget(txt, *widget, **kwargs):
     if kwargs.get("hbox"):
         hbox = kwargs.get("hbox")
     else:
-        hbox = Gtk.Box()
+        hbox = Gtk.HBox()
 
     hbox.props.spacing = UI_BOX_SPACING
     lbl = Gtk.Label(label=txt)
@@ -66,7 +79,7 @@ def build_label_beside_widget(txt, *widget, **kwargs):
     #label. By convention this is true in the great majority of cases. Settings that
     #construct their own widgets will need to set this themselves
     lbl.set_mnemonic_widget(widget[-1])
-
+    
     return hbox
 
 def build_combo_box_text(selected, *values):
@@ -113,29 +126,23 @@ def build_tight_button(stock_id):
     provider = Gtk.CssProvider()
     provider.load_from_data(data)
     # 600 = GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
-    button.get_style_context().add_provider(provider, 600)
+    button.get_style_context().add_provider(provider, 600) 
     return button
 
 def adjust_schema_for_overrides(originalSchema, key, options):
     if (_shell is None):
         return originalSchema
 
-    if (_shell.mode == 'user'):
-        overridesSchema = "org.gnome.shell.overrides"
-        overridesFile = "org.gnome.shell.gschema.xml"
-    elif (_shell.mode == 'classic'):
+    if (_shell.mode == 'classic'):
         overridesSchema = "org.gnome.shell.extensions.classic-overrides"
         overridesFile = None
     else:
-        return originalSchema
+        overridesSchema = "org.gnome.shell.overrides"
+        overridesFile = "org.gnome.shell.gschema.xml"
 
-    try:
-        if (key in GSettingsSetting(overridesSchema, schema_filename=overridesFile).list_keys()):
-            options['schema_filename'] = overridesFile
-            return overridesSchema
-    except GSettingsMissingError as e:
-        logging.info("GSetting missing %s", e)
-
+    if (key in Gio.Settings(schema=overridesSchema).list_keys()):
+        options['schema_filename'] = overridesFile
+        return overridesSchema
     return originalSchema
 
 
@@ -153,11 +160,11 @@ class _GSettingsTweak(Tweak):
                 name,
                 options.get("description",self.settings.schema_get_description(key_name)),
                 **options)
-        except GSettingsMissingError as e:
+        except GSettingsMissingError, e:
             self.settings = GSettingsFakeSetting()
             Tweak.__init__(self,"","")
             self.loaded = False
-            logging.info("GSetting missing %s", e)
+            logging.info("GSetting missing %s" % (e.message))
         except KeyError:
             self.settings = GSettingsFakeSetting()
             Tweak.__init__(self,"","")
@@ -206,7 +213,6 @@ class ListBoxTweakGroup(Gtk.ListBox, TweakGroup):
                         name=options['uid'])
         self.get_style_context().add_class(
                         options.get('css_class','tweak-group'))
-        self.props.margin = 20
         self.props.vexpand = False
         self.props.valign = Gtk.Align.START
 
@@ -265,37 +271,13 @@ class GSettingsSwitchTweak(Gtk.Box, _GSettingsTweak, _DependableMixin):
         w = Gtk.Switch()
         self.settings.bind(key_name, w, "active", Gio.SettingsBindFlags.DEFAULT)
 
+        build_label_beside_widget(name, w, hbox=self)
+        self.widget_for_size_group = None
+
         self.add_dependency_on_tweak(
                 options.get("depends_on"),
                 options.get("depends_how")
         )
-
-        vbox1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        vbox1.props.spacing = UI_BOX_SPACING
-        lbl = Gtk.Label(label=name)
-        lbl.props.ellipsize = Pango.EllipsizeMode.END
-        lbl.props.xalign = 0.0
-        vbox1.pack_start(lbl, True, True, 0)
-
-        if options.get("desc"):
-            description = options.get("desc")
-            lbl_desc = Gtk.Label()
-            lbl_desc.props.xalign = 0.0
-            lbl_desc.set_line_wrap(True)
-            lbl_desc.get_style_context().add_class("dim-label")
-            lbl_desc.set_markup("<span size='small'>"+GLib.markup_escape_text(description)+"</span>")
-            vbox1.pack_start(lbl_desc, True, True, 0)
-
-        vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        vbox2_upper = Gtk.Box()
-        vbox2_lower = Gtk.Box()
-        vbox2.pack_start(vbox2_upper, True, True, 0)
-        vbox2.pack_start(w, False, False, 0)
-        vbox2.pack_start(vbox2_lower, True, True, 0)
-
-        self.pack_start(vbox1, True, True, 0)
-        self.pack_start(vbox2, False, False, 0)
-        self.widget_for_size_group = None
 
 class GSettingsFontButtonTweak(Gtk.Box, _GSettingsTweak, _DependableMixin):
     def __init__(self, name, schema_name, key_name, **options):
@@ -303,7 +285,6 @@ class GSettingsFontButtonTweak(Gtk.Box, _GSettingsTweak, _DependableMixin):
         _GSettingsTweak.__init__(self, name, schema_name, key_name, **options)
 
         w = Gtk.FontButton()
-        w.set_use_font(True)
         self.settings.bind(key_name, w, "font-name", Gio.SettingsBindFlags.DEFAULT)
         build_label_beside_widget(name, w, hbox=self)
         self.widget_for_size_group = w
@@ -338,7 +319,7 @@ class GSettingsSpinButtonTweak(Gtk.Box, _GSettingsTweak, _DependableMixin):
 
         build_label_beside_widget(name, w, hbox=self)
         self.widget_for_size_group = w
-
+        
         self.add_dependency_on_tweak(
                 options.get("depends_on"),
                 options.get("depends_how")
@@ -484,19 +465,58 @@ class GetterSetterSwitchTweak(Gtk.Box, Tweak):
     def set_active(self, v):
         raise NotImplementedError()
 
+class DarkThemeSwitcher(Gtk.Box, Tweak):
+    def __init__(self, **options):
+        Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
+        Tweak.__init__(self, _("Enable dark theme for all applications"),
+                       _("Enable the dark theme hint for all the applications in the session"),
+                       **options)
+
+        self._gtksettings = GtkSettingsManager()
+
+        w = Gtk.Switch()
+        w.set_active(self._gtksettings.get_integer("gtk-application-prefer-dark-theme"))
+		
+        title = _("Global Dark Theme")
+        description = _("Applications need to be restarted for change to take effect")
+        w.connect("notify::active", self._on_switch_changed)
+        
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        hbox.props.spacing = UI_BOX_SPACING
+        lbl = Gtk.Label(label=title)
+        lbl.props.ellipsize = Pango.EllipsizeMode.END
+        lbl.props.xalign = 0.0
+        hbox.pack_start(lbl, True, True, 0)
+        hbox.pack_start(w, False, False, 0)
+        
+        lbl_des = Gtk.Label()
+        lbl_des.props.xalign = 0.0
+        lbl_des.set_markup("<span size='x-small'>"+description+"</span>")
+        
+        self.pack_start(hbox, False, False, 0)
+        self.pack_start(lbl_des, False, False,0)
+        self.widget_for_size_group = None
+
+    def _on_switch_changed(self, switch, param):
+        active = switch.get_active()
+
+        try:
+            self._gtksettings.set_integer("gtk-application-prefer-dark-theme",
+                                          active)
+        except:
+            self.notify_information(_("Error writing setting"))
+
 class Title(Gtk.Box, Tweak):
     def __init__(self, name, desc, **options):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
         Tweak.__init__(self, name, desc, **options)
         widget = Gtk.Label()
-        widget.set_markup("<b>"+GLib.markup_escape_text(name)+"</b>")
+        widget.set_markup("<b>"+name+"</b>")
         widget.props.xalign = 0.0
-        if not options.get("top"):
-            widget.set_margin_top(10)
         self.add(widget)
 
 class GSettingsSwitchTweakValue(Gtk.Box, _GSettingsTweak):
-
+    
     def __init__(self, name, schema_name, key_name, **options):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
         _GSettingsTweak.__init__(self, name, schema_name, key_name, **options)
@@ -504,39 +524,13 @@ class GSettingsSwitchTweakValue(Gtk.Box, _GSettingsTweak):
         sw = Gtk.Switch()
         sw.set_active(self.get_active())
         sw.connect("notify::active", self._on_toggled)
-
-        vbox1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        vbox1.props.spacing = UI_BOX_SPACING
-        lbl = Gtk.Label(label=name)
-        lbl.props.ellipsize = Pango.EllipsizeMode.END
-        lbl.props.xalign = 0.0
-        vbox1.pack_start(lbl, True, True, 0)
-
-        if options.get("desc"):
-            description = options.get("desc")
-            lbl_desc = Gtk.Label()
-            lbl_desc.props.xalign = 0.0
-            lbl_desc.set_line_wrap(True)
-            lbl_desc.get_style_context().add_class("dim-label")
-            lbl_desc.set_markup("<span size='small'>"+GLib.markup_escape_text(description)+"</span>")
-            vbox1.pack_start(lbl_desc, True, True, 0)
-
-        vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        vbox2_upper = Gtk.Box()
-        vbox2_lower = Gtk.Box()
-        vbox2.pack_start(vbox2_upper, True, True, 0)
-        vbox2.pack_start(sw, False, False, 0)
-        vbox2.pack_start(vbox2_lower, True, True, 0)
-
-        self.pack_start(vbox1, True, True, 0)
-        self.pack_start(vbox2, False, False, 0)
-        self.widget_for_size_group = None
+        build_label_beside_widget(name, sw, hbox=self)
 
     def _on_toggled(self, sw, pspec):
         self.set_active(sw.get_active())
-
+    
     def set_active(self, v):
         raise NotImplementedError()
-
+    
     def get_active(self):
         raise NotImplementedError()

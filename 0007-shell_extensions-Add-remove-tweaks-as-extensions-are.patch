@@ -1,0 +1,101 @@
+From f32fd7923f7bc3c99339f72730126ec93bc4f3ab Mon Sep 17 00:00:00 2001
+From: Rui Matos <tiagomatos@gmail.com>
+Date: Thu, 7 Nov 2013 13:06:23 +0100
+Subject: [PATCH 07/12] shell_extensions: Add/remove tweaks as extensions are
+ added/removed
+
+---
+ gtweak/gshellwrapper.py                       |  3 +++
+ gtweak/tweaks/tweak_group_shell_extensions.py | 33 ++++++++++++++++++++++++++-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/gtweak/gshellwrapper.py b/gtweak/gshellwrapper.py
+index 22725df..8c7e2ac 100644
+--- a/gtweak/gshellwrapper.py
++++ b/gtweak/gshellwrapper.py
+@@ -184,6 +184,9 @@ class GnomeShell36(GnomeShell34):
+     def install_remote_extension(self, uuid, reply_handler, error_handler, user_data):
+         self._proxy.proxy_extensions.InstallRemoteExtension('(s)', uuid, result_handler=reply_handler, error_handler=error_handler, user_data=user_data)
+ 
++    def get_extension_info(self, uuid):
++        return self._proxy.proxy_extensions.GetExtensionInfo('(s)', uuid)
++
+ @gtweak.utils.singleton
+ class GnomeShellFactory:
+     def __init__(self):
+diff --git a/gtweak/tweaks/tweak_group_shell_extensions.py b/gtweak/tweaks/tweak_group_shell_extensions.py
+index ba82bf7..25bfaf4 100644
+--- a/gtweak/tweaks/tweak_group_shell_extensions.py
++++ b/gtweak/tweaks/tweak_group_shell_extensions.py
+@@ -158,7 +158,7 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
+         btn.set_label(_("Updating"))
+         self.set_sensitive(False)
+         self._shell.install_remote_extension(uuid,self.reply_handler, self.error_handler, btn)
+-    
++
+     def reply_handler(self, proxy_object, result, user_data):
+         if result == 's':
+             self.deleteButton.show()
+@@ -268,14 +268,22 @@ class _ShellExtensionInstallerTweak(Gtk.Box, Tweak):
+ 
+ class ShellExtensionTweakGroup(ListBoxTweakGroup):
+     def __init__(self):
++        self._shell = None
++        self._uuids = dict()
++
+         extension_tweaks = []
+         sg = build_horizontal_sizegroup()
++        self._sg = sg
+ 
+         #check the shell is running
+         try:
+             shell = GnomeShellFactory().get_shell()
+             if shell is None:
+                 raise Exception("Shell not running or DBus service not available")
++            else:
++                self._shell = shell
++
++            shell.connect('extension-status-changed', self._on_extension_status_changed)
+ 
+             version =  tuple(shell.version.split("."))
+             ego = ExtensionsDotGnomeDotOrg(version)
+@@ -286,6 +294,7 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
+                     try:
+                         extension_widget = _ShellExtensionTweak(shell, extension, size_group=sg)
+                         extension_tweaks.append(extension_widget)
++                        self._uuids[extension["uuid"]] = extension_widget
+                         if extension.get("type") == GnomeShell.EXTENSION_TYPE["PER_USER"]:
+                             ego.connect("got-extension-info", self._got_info, extension, extension_widget)
+                             ego.query_extension_info(extension["uuid"])
+@@ -326,6 +335,28 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
+         if before and not row.get_header():
+             row.set_header (Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL))
+ 
++    def _on_extension_status_changed(self, shell, uuid, state, error):
++        if uuid not in self._uuids:
++            self._add_extension(uuid)
++            return
++
++        if state == GnomeShell.EXTENSION_STATE["UNINSTALLED"]:
++            self.remove(self._uuids[uuid])
++            del self._uuids[uuid]
++
++    def _add_extension(self, uuid):
++        try:
++            extension = self._shell.get_extension_info(uuid)
++        except:
++            logging.warning("Error getting extension info", exc_info=True)
++            return
++
++        t = _ShellExtensionTweak(self._shell, extension, size_group=self._sg)
++        t.show_all()
++        self.add_tweak_row(t)
++        self._uuids[uuid] = t
++
++
+ TWEAK_GROUPS = [
+         ShellExtensionTweakGroup(),
+ ]
+-- 
+2.3.6
+

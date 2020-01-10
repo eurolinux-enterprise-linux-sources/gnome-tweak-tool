@@ -1,0 +1,50 @@
+From 0c14b2422d624f6506820325dfc0fbb75d16fa62 Mon Sep 17 00:00:00 2001
+From: Rui Matos <tiagomatos@gmail.com>
+Date: Tue, 7 Apr 2015 16:20:26 +0200
+Subject: [PATCH 09/12] ExtensionInstaller: load extension after installing it
+
+---
+ gtweak/gshellwrapper.py                       | 3 +++
+ gtweak/tweaks/tweak_group_shell_extensions.py | 9 +--------
+ 2 files changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/gtweak/gshellwrapper.py b/gtweak/gshellwrapper.py
+index 8c7e2ac..3212803 100644
+--- a/gtweak/gshellwrapper.py
++++ b/gtweak/gshellwrapper.py
+@@ -184,6 +184,9 @@ class GnomeShell36(GnomeShell34):
+     def install_remote_extension(self, uuid, reply_handler, error_handler, user_data):
+         self._proxy.proxy_extensions.InstallRemoteExtension('(s)', uuid, result_handler=reply_handler, error_handler=error_handler, user_data=user_data)
+ 
++    def load_user_extension(self, uuid):
++        return self._proxy.proxy_extensions.LoadUserExtension('(s)', uuid)
++
+     def get_extension_info(self, uuid):
+         return self._proxy.proxy_extensions.GetExtensionInfo('(s)', uuid)
+ 
+diff --git a/gtweak/tweaks/tweak_group_shell_extensions.py b/gtweak/tweaks/tweak_group_shell_extensions.py
+index c8af468..1f6b7f0 100644
+--- a/gtweak/tweaks/tweak_group_shell_extensions.py
++++ b/gtweak/tweaks/tweak_group_shell_extensions.py
+@@ -247,17 +247,10 @@ class _ShellExtensionInstallerTweak(Gtk.Box, Tweak):
+                                     os.path.join(self._shell.EXTENSION_DIR, extension_uuid))
+ 
+                 if ok:
+-                    if updated:
+-                        verb = _("%s extension updated successfully") % extension_uuid
+-                    else:
+-                        verb = _("%s extension installed successfully") % extension_uuid
+-
+-                    self.notify_logout()
+-
++                    self._shell.load_user_extension(extension_uuid)
+                 else:
+                     self.notify_information(_("Error installing extension"))
+ 
+-
+             except:
+                 #does not look like a valid theme
+                 self.notify_information(_("Invalid extension"))
+-- 
+2.3.6
+

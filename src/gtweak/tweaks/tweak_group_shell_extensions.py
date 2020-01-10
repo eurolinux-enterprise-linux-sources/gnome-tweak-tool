@@ -1,6 +1,3 @@
-# SPDX-License-Identifier: GPL-3.0+
-# License-Filename: LICENSES/GPL-3.0
-
 import os.path
 import zipfile
 import tempfile
@@ -9,14 +6,13 @@ import json
 
 from gi.repository import Gtk
 from gi.repository import GLib
-from gi.repository import Gio
 from gi.repository import Pango
 
 from operator import itemgetter
 from gtweak.utils import extract_zip_file, execute_subprocess
 from gtweak.gshellwrapper import GnomeShell, GnomeShellFactory
 from gtweak.tweakmodel import Tweak
-from gtweak.widgets import FileChooserButton, build_label_beside_widget, build_horizontal_sizegroup, build_tight_button, ListBoxTweakGroup
+from gtweak.widgets import FileChooserButton, build_label_beside_widget, build_horizontal_sizegroup, build_tight_button, UI_BOX_SPACING, ListBoxTweakGroup
 from gtweak.egowrapper import ExtensionsDotGnomeDotOrg
 from gtweak.utils import DisableExtension
 
@@ -36,45 +32,6 @@ def _fix_shell_version_for_ego(version):
 def _get_shell_major_minor_version(version):
     return '.'.join(version.split('.')[0:2])
 
-class _ExtensionsBlankState(Gtk.Box, Tweak):
-
-    def __init__(self):
-        Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL, spacing=18,
-                               valign=Gtk.Align.CENTER)
-        Tweak.__init__(self, 'extensions', '')
-
-        self.add(Gtk.Image(icon_name="org.gnome.tweaks-symbolic",
-                 pixel_size=128, opacity=0.3))
-
-        self.add(Gtk.Label(label="<b>" + _("No Extensions Installed") + "</b>",
-                 use_markup=True, opacity=0.3))
-
-        try:
-            self._swInfo = Gio.DesktopAppInfo.new("org.gnome.Software.desktop")
-
-            if self._swInfo:
-                btn = Gtk.Button(label=_("Browse in Software"),
-                                 always_show_image=True, halign=Gtk.Align.CENTER,
-                                 image=Gtk.Image(icon_name="org.gnome.Software-symbolic"))
-                btn.connect("clicked", self._on_browse_clicked)
-                self.add(btn)
-
-        except:
-            logging.warning("Error detecting shell", exc_info=True)
-
-        self.show_all()
-
-    def _on_browse_clicked(self, btn):
-        self._swInfo.launch([], None)
-
-class _ExtensionDescriptionLabel(Gtk.Label):
-
-    def do_get_preferred_height_for_width(self, width):
-        # Hack: Request the maximum height allowed by the line limit
-        if self.get_lines() > 0:
-            return Gtk.Label.do_get_preferred_height_for_width(self, 0)
-        return Gtk.Label.do_get_preferred_height_for_width(self, width)
-
 class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
 
     def __init__(self, shell, ext, **options):
@@ -83,28 +40,30 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
 
         self.hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self.hbox.props.border_width = 10
-        self.hbox.props.spacing = 12
-
+        self.hbox.props.spacing = UI_BOX_SPACING
+    
         self._shell = shell
         state = ext.get("state")
         uuid = ext["uuid"]
-        self._app_id = "user/*/extensions-web/shell-extension/" + uuid.replace('@', '_') + "/*"
 
-        shell._settings.bind("disable-user-extensions", self,
-                             "sensitive", Gio.SettingsBindFlags.INVERT_BOOLEAN)
-
+        sw = Gtk.Switch()
+        sw.props.vexpand = False
+        sw.props.valign = Gtk.Align.CENTER
+        sw.set_active(self._shell.extension_is_active(state, uuid))
+        sw.connect('notify::active', self._on_extension_toggled, uuid)
+        self.hbox.pack_start(sw, False, False, 0)
+                        
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         lbl_name = Gtk.Label(xalign=0.0)
-        name_markup = GLib.markup_escape_text(ext["name"].lower().capitalize())
-        lbl_name.set_markup("<span size='medium'><b>"+name_markup+"</b></span>")
-        lbl_desc = _ExtensionDescriptionLabel(xalign=0.0, yalign=0.0, wrap=True, lines=2)
-        desc = GLib.markup_escape_text(ext["description"].lower().capitalize().split('\n')[0])
+        lbl_name.set_markup("<span size='medium'><b>"+ext["name"].lower().capitalize()+"</b></span>")
+        lbl_desc = Gtk.Label(xalign=0.0)
+        desc = ext["description"].lower().capitalize().split('\n')[0]
         lbl_desc.set_markup("<span foreground='#A19C9C' size='small'>"+desc+"</span>")
-        lbl_desc.props.ellipsize = Pango.EllipsizeMode.END
-
+        lbl_desc.props.ellipsize = Pango.EllipsizeMode.END 
+        
         vbox.pack_start(lbl_name, False, False, 0)
         vbox.pack_start(lbl_desc, False, False, 0)
-
+        
         self.hbox.pack_start(vbox, True, True, 10)
 
         info = None
@@ -123,6 +82,7 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
         else:
             warning = _("Unknown extension error")
             logging.critical(warning)
+        sw.set_sensitive(sensitive)
 
 
         if info:
@@ -136,21 +96,29 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
         if self._shell.SUPPORTS_EXTENSION_PREFS:
             prefs = os.path.join(ext['path'], "prefs.js")
             if os.path.exists(prefs):
-                btn = Gtk.Button.new_from_icon_name("emblem-system-symbolic", Gtk.IconSize.BUTTON)
+                icon = Gtk.Image()  
+                icon.set_from_icon_name("emblem-system-symbolic", Gtk.IconSize.BUTTON)
+                btn = Gtk.Button()
+                btn.props.vexpand = False
                 btn.props.valign = Gtk.Align.CENTER
+                btn.add(icon)
                 btn.connect("clicked", self._on_configure_clicked, uuid)
                 self.hbox.pack_start(btn, False, False, 0)
 
-        sw = Gtk.Switch(sensitive=sensitive)
-        sw.props.vexpand = False
-        sw.props.valign = Gtk.Align.CENTER
-        sw.set_active(self._shell.extension_is_active(state, uuid))
-        sw.connect('notify::active', self._on_extension_toggled, uuid)
-        self.hbox.pack_start(sw, False, False, 0)
+        btn = Gtk.Button(label=_("Remove"))
+        btn.props.vexpand = False
+        btn.props.valign = Gtk.Align.CENTER
+        btn.set_sensitive(False)
+        self.hbox.pack_start(btn, False, False, 0)
+        if ext.get("type") == GnomeShell.EXTENSION_TYPE["PER_USER"]:
+            btn.get_style_context().add_class("suggested-action")
+            btn.set_sensitive(True)
+            btn.connect("clicked", self._on_extension_delete, uuid, ext["name"])
+        self.deleteButton = btn
 
         de = DisableExtension()
         de.connect('disable-extension', self._on_disable_extension, sw)
-
+    
         self.add(self.hbox)
         self.widget_for_size_group = None
 
@@ -166,34 +134,44 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
         else:
             self._shell.enable_extension(uuid)
 
+    def _on_extension_delete(self, btn, uuid, name):
+        path = os.path.join(self._shell.EXTENSION_DIR, uuid)
+        if os.path.exists(path):
+            first_message = _("Uninstall Extension")
+            second_message = _("Do you want to uninstall the '%s' extension?") % name
+            dialog = Gtk.MessageDialog(
+                                   transient_for=self.main_window, flags=0,
+                                   message_type=Gtk.MessageType.QUESTION,
+                                   buttons=Gtk.ButtonsType.YES_NO,
+                                   text=first_message)
+            dialog.format_secondary_text(second_message)
+            response = dialog.run()
+            if response == Gtk.ResponseType.YES:
+                self._shell.uninstall_extension(uuid)
+                self.set_sensitive(False)
+                btn.get_style_context().remove_class("suggested-action")
+            dialog.destroy()
+
     def _on_extension_update(self, btn, uuid):
         self._shell.uninstall_extension(uuid)
         btn.get_style_context().remove_class("suggested-action")
         btn.set_label(_("Updating"))
         self.set_sensitive(False)
         self._shell.install_remote_extension(uuid,self.reply_handler, self.error_handler, btn)
-
-    def do_activate(self):
-        bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
-        bus.call('org.gnome.Software',
-                 '/org/gnome/Software',
-                 'org.freedesktop.Application',
-                 'ActivateAction',
-                 GLib.Variant('(sava{sv})',
-                              ('details', [GLib.Variant('(ss)', (self._app_id, ''))], {})),
-                 None, 0, -1, None)
-
+    
     def reply_handler(self, proxy_object, result, user_data):
         if result == 's':
+            self.deleteButton.show()
             user_data.hide()
-            self.set_sensitive(True)
+            self.set_sensitive(True) 
 
     def error_handler(self, proxy_object, result, user_data):
         user_data.set_label(_("Error"))
-        print(result)
+        print result
 
     def add_update_button(self, uuid):
-        updateButton = Gtk.Button(_("Update"))
+        self.deleteButton.hide()
+        updateButton = Gtk.Button(_("Update"))   
         updateButton.get_style_context().add_class("suggested-action")
         updateButton.connect("clicked", self._on_extension_update, uuid)
         updateButton.show()
@@ -202,7 +180,91 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
     def make_image(self, icon, tip):
         image = Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.MENU)
         image.set_tooltip_text(tip)
-        return image
+        return image    
+
+class _ShellExtensionInstallerTweak(Gtk.Box, Tweak):
+
+    def __init__(self, shell, **options):
+        Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
+        Tweak.__init__(self, _("Install Shell Extension"), "", **options)
+
+        self._shell = shell
+
+        chooser = FileChooserButton(
+                        _("Select an extension"),
+                        True,
+                        ["application/zip"])
+        chooser.connect("file-set", self._on_file_set)
+
+        hb = Gtk.HBox(spacing=UI_BOX_SPACING)
+        hb.pack_start(
+                Gtk.LinkButton.new_with_label("https://extensions.gnome.org",_("Get more extensions")),
+                False, False, 0)
+        hb.pack_start(chooser, False, False, 0)
+
+        build_label_beside_widget(self.name, hb, hbox=self)
+        self.widget_for_size_group = hb
+
+        self.loaded = self._shell is not None
+
+    def _on_file_set(self, chooser):
+        f = chooser.get_filename()
+
+        with zipfile.ZipFile(f, 'r') as z:
+            try:
+                fragment = ()
+                file_extension = None
+                file_metadata = None
+                for n in z.namelist():
+                    if n.endswith("metadata.json"):
+                        fragment = n.split("/")[0:-1]
+                        file_metadata = n
+                    if n.endswith("extension.js"):
+                        if file_extension:
+                            raise Exception("Only one extension per zip file")
+                        file_extension = n
+
+                if not file_metadata:
+                    raise Exception("Could not find metadata.json")
+                if not file_extension:
+                    raise Exception("Could not find extension.js")
+
+                #extract the extension uuid
+                extension_uuid = None
+                tmp = tempfile.mkdtemp()
+                z.extract(file_metadata, tmp)
+                with open(os.path.join(tmp, file_metadata)) as f:
+                    try:
+                        extension_uuid = json.load(f)["uuid"]
+                    except:
+                        logging.warning("Invalid extension format", exc_info=True)
+
+                ok = False
+                if extension_uuid:
+                    ok, updated = extract_zip_file(
+                                    z,
+                                    "/".join(fragment),
+                                    os.path.join(self._shell.EXTENSION_DIR, extension_uuid))
+
+                if ok:
+                    if updated:
+                        verb = _("%s extension updated successfully") % extension_uuid
+                    else:
+                        verb = _("%s extension installed successfully") % extension_uuid
+
+                    self.notify_logout()
+
+                else:
+                    self.notify_information(_("Error installing extension"))
+
+
+            except:
+                #does not look like a valid theme
+                self.notify_information(_("Invalid extension"))
+                logging.warning("Error parsing theme zip", exc_info=True)
+
+        #set button back to default state
+        chooser.unselect_all()
 
 class ShellExtensionTweakGroup(ListBoxTweakGroup):
     def __init__(self):
@@ -219,7 +281,7 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
             ego = ExtensionsDotGnomeDotOrg(version)
             try:
                 #add a tweak for each installed extension
-                extensions = sorted(list(shell.list_extensions().values()), key=itemgetter("name"))
+                extensions = sorted(shell.list_extensions().values(), key=itemgetter("name"))
                 for extension in extensions:
                     try:
                         extension_widget = _ShellExtensionTweak(shell, extension, size_group=sg)
@@ -233,27 +295,16 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
                 logging.warning("Error listing extensions", exc_info=True)
         except:
             logging.warning("Error detecting shell", exc_info=True)
-
+        
+        #add the extension installer
+        extension_tweaks.append(
+                _ShellExtensionInstallerTweak(shell, size_group=sg))
+            
         ListBoxTweakGroup.__init__(self,
                                    _("Extensions"),
                                    *extension_tweaks)
-
-        if shell is None:
-            return # we're done
-
-        self.props.valign = Gtk.Align.FILL
-
-        self.titlebar_widget = Gtk.Switch(visible=True)
-        shell._settings.bind("disable-user-extensions", self.titlebar_widget,
-                             "active", Gio.SettingsBindFlags.INVERT_BOOLEAN)
-
+        
         self.set_header_func(self._list_header_func, None)
-        self.connect("row-activated", self._on_row_activated, None);
-
-        if not len(extension_tweaks):
-            placeholder = _ExtensionsBlankState()
-            self.set_placeholder(placeholder)
-            self.tweaks.append(placeholder)
 
     def _got_info(self, ego, resp, uuid, extension, widget):
         if uuid == extension["uuid"]:
@@ -274,9 +325,6 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
     def _list_header_func(self, row, before, user_data):
         if before and not row.get_header():
             row.set_header (Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL))
-
-    def _on_row_activated(self, list, row, user_data):
-        row.activate()
 
 TWEAK_GROUPS = [
         ShellExtensionTweakGroup(),

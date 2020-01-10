@@ -1,0 +1,64 @@
+From 6c0aee603620c5697cdcdeebda4b28bc2c3ce195 Mon Sep 17 00:00:00 2001
+From: Rui Matos <tiagomatos@gmail.com>
+Date: Tue, 7 Apr 2015 20:12:47 +0200
+Subject: [PATCH 06/12] gshellwrapper: Proxy the extension-status-changed
+ signal
+
+---
+ gtweak/gshellwrapper.py | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/gtweak/gshellwrapper.py b/gtweak/gshellwrapper.py
+index 9d0ccdd..22725df 100644
+--- a/gtweak/gshellwrapper.py
++++ b/gtweak/gshellwrapper.py
+@@ -21,6 +21,7 @@ import logging
+ 
+ from gi.repository import Gio
+ from gi.repository import GLib
++from gi.repository import GObject
+ 
+ import gtweak.utils
+ from gtweak.gsettings import GSettingsSetting
+@@ -78,7 +79,7 @@ class _ShellProxy:
+     def version(self):
+         return self._version
+ 
+-class GnomeShell:
++class GnomeShell(GObject.GObject):
+ 
+     EXTENSION_STATE = {
+         "ENABLED"       :   1,
+@@ -99,7 +100,13 @@ class GnomeShell:
+     DATA_DIR = os.path.join(GLib.get_user_data_dir(), "gnome-shell")
+     EXTENSION_DIR = os.path.join(GLib.get_user_data_dir(), "gnome-shell", "extensions")
+ 
++    __gsignals__ = {
++      "extension-status-changed": (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
++            (GObject.TYPE_STRING, GObject.TYPE_INT, GObject.TYPE_STRING)),
++    }
++
+     def __init__(self, shellproxy, shellsettings):
++        GObject.GObject.__init__(self)
+         self._proxy = shellproxy
+         self._settings = shellsettings
+ 
+@@ -159,6 +166,15 @@ class GnomeShell34(GnomeShell32):
+ 
+ class GnomeShell36(GnomeShell34):
+ 
++    def __init__(self, *args):
++        super(GnomeShell36, self).__init__(*args)
++
++        self._proxy.proxy_extensions.connect('g-signal', self._on_proxy_extensions_signal)
++
++    def _on_proxy_extensions_signal(self, proxy, sender, signal, params):
++        if signal == 'ExtensionStatusChanged':
++            self.emit('extension-status-changed', params[0], params[1], params[2])
++
+     def list_extensions(self):
+         return self._proxy.proxy_extensions.ListExtensions()
+ 
+-- 
+2.3.6
+

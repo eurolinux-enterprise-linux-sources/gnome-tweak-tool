@@ -1,77 +1,95 @@
-%global gsettings_desktop_schemas_version 3.21.2
-%global name_new gnome-tweaks
-
 %global major_version %%(cut -d "." -f 1-2 <<<%{version})
 
 Name:           gnome-tweak-tool
-Version:        3.28.1
+Version:        3.14.3
 Release:        2%{?dist}
-Summary:        Customize advanced GNOME 3 options
+Summary:        A tool to customize advanced GNOME 3 options
 
-# Software is GPLv3, Appdata file is CC0-1.0
-License:        GPLv3 and CC0
-URL:            https://wiki.gnome.org/action/show/Apps/Tweaks
-Source0:        https://download.gnome.org/sources/%{name_new}/%{majorversion}/%{name_new}-%{version}.tar.xz
-Patch0:         port-to-python2.patch
+License:        GPLv3
+URL:            http://live.gnome.org/GnomeTweakTool
+Source0:        http://ftp.gnome.org/pub/gnome/sources/%{name}/%{major_version}/gnome-tweak-tool-%{version}.tar.xz
 
-BuildRequires:  desktop-file-utils
-BuildRequires:  gettext
-BuildRequires:  libappstream-glib
-BuildRequires:  meson
-Requires:       gnome-desktop3
-Requires:       gnome-settings-daemon
-Requires:       gnome-shell >= 3.24
-Requires:       gnome-shell-extension-user-theme
-Requires:       gobject-introspection
-Requires:       gsettings-desktop-schemas >= 3.27.90
-Requires:       gtk3 >= 3.12
-Requires:       libnotify
-Requires:       libsoup
-Requires:       mutter
-Requires:       pango
-Provides:       gnome-tweak-tool = %{version}.%{release}
-Obsoletes:      gnome-tweak-tool < 3.27.3-4
+Patch1:   0001-xkb-Blacklist-grp-and-grp_led-XKB-options.patch
+Patch2:   0002-xkb-Switch-to-expanders-and-radio-buttons-instead-of.patch
+Patch3:   0003-AutostartFile-add-support-to-create-a-user-autostart.patch
+Patch4:   0004-Add-a-way-to-inhibit-systemd-s-default-behavior-on-l.patch
+Patch5:   0005-gshellwrapper-Add-missing-extension-state-and-type.patch
+Patch6:   0006-gshellwrapper-Proxy-the-extension-status-changed-sig.patch
+Patch7:   0007-shell_extensions-Add-remove-tweaks-as-extensions-are.patch
+Patch8:   0008-shell_extensions-Add-a-sort-func-to-keep-the-list-or.patch
+Patch9:   0009-ExtensionInstaller-load-extension-after-installing-i.patch
+Patch10:   0010-shell_extensions-SESSION_MODE-extensions-can-t-be-en.patch
+Patch11:   0011-GSettingsFontButtonTweak-filter-out-fonts-that-gtk-3.patch
+Patch12:   0012-font-Remove-document-font-tweak-since-nothing-honors.patch
+Patch13:   0001-Avoid-GSettings-aborting-when-missing-classic-overri.patch
+
 BuildArch:      noarch
+BuildRequires:  intltool
+BuildRequires:  pkgconfig(gsettings-desktop-schemas)
+BuildRequires:  pkgconfig(gtk+-3.0)
+BuildRequires:  pkgconfig(pygobject-3.0)
+BuildRequires:  desktop-file-utils
+Requires:       gnome-shell
+Requires:       pygobject3
 
 %description
-GNOME Tweaks allows adjusting advanced configuration settings in GNOME 3. This
-includes things like the fonts used in user interface elements, alternative user
-interface themes, changes in window management behavior, GNOME Shell appearance
-and extension, etc.
+GNOME Tweak Tool is an application for changing the advanced settings
+of GNOME 3.
 
+Features:
+* Install and switch gnome-shell themes
+* Switch gtk/icon/cursor themes
+* Switch window manager themes
+* Change:
+        * The user-interface and titlebar fonts
+        * Icons in menus and buttons
+        * Behavior on laptop lid close
+        * Shell font size
+        * File manager desktop icons
+        * Titlebar click action
+        * Shell clock to show date
+        * Font hinting and antialiasing 
 
 %prep
-%setup -q -n gnome-tweaks-%{version}
-%patch0 -p1 -b .py3
+%setup -q
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
+%patch13 -p1
+
+autoreconf -i -f
 
 %build
-%meson
-%meson_build
+PYTHON=%{__python}
+export PYTHON
+%configure
+make %{?_smp_mflags}
 
 
 %install
-%meson_install
+PYTHON=%{__python}
+export PYTHON
+make install DESTDIR=$RPM_BUILD_ROOT
 
-sed -i '1s|^#!/usr/bin/env python|#!%{__python}|' $RPM_BUILD_ROOT%{_bindir}/%{name_new}
+sed -i '1s|^#!/usr/bin/env python|#!%{__python}|' $RPM_BUILD_ROOT%{_bindir}/%{name}
 
-# Update the screenshot shown in the software center
-#
-# NOTE: It would be *awesome* if this file was pushed upstream.
-#
-# See http://people.freedesktop.org/~hughsient/appdata/#screenshots for more details.
-#
-appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/metainfo/org.gnome.tweaks.appdata.xml \
-  https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/gnome-tweak-tool/a.png \
-  https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/gnome-tweak-tool/b.png
-
-%find_lang %{name_new}
+%find_lang %{name}
 
 
 %check
 # Leave the desktop file validation, but don't return an error value ("Phanteon"
 # value not supported yet by validator in "OnlyShowIn" key)
-desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop || true
-appstream-util validate-relax --nonet $RPM_BUILD_ROOT/%{_datadir}/metainfo/*.appdata.xml
+desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop || true
+
 
 %post
 /bin/touch --no-create %{_datadir}/icons/hicolor/ &>/dev/null || :
@@ -88,89 +106,24 @@ fi
 /usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor &>/dev/null || :
 
 
-%files -f %{name_new}.lang
-%doc AUTHORS NEWS README.md
-%license LICENSES/
-%{_bindir}/%{name_new}
-%{_libexecdir}/gnome-tweak-tool-lid-inhibitor
+%files -f %{name}.lang
+%doc AUTHORS COPYING NEWS README
+%{_bindir}/%{name}
 %{python_sitelib}/gtweak/
-%{_datadir}/metainfo/*.appdata.xml
-%{_datadir}/applications/*.desktop
-%{_datadir}/%{name_new}/
-%{_datadir}/icons/hicolor/*/apps/*.png
-%{_datadir}/icons/hicolor/scalable/apps/*.svg
+%{_datadir}/appdata/%{name}.appdata.xml
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/%{name}/
+%{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_libexecdir}/%{name}-lid-inhibitor
 
 
 %changelog
-* Thu Jun 14 2018 Carlos Soriano <csoriano@redhat.com> - 3.28.1-2
-- Port to python2
-- Resolves: #1590848
+* Fri Aug 28 2015 Rui Matos <rmatos@redhat.com> - 3.14.3-2
+- Fix a crash when classic session gsettings schema isn't available
+Resolves: #1256644
 
-* Fri Jun 08 2018 Richard Hughes <rhughes@redhat.com> - 3.28.1-1
-- Update to 3.28.1
-- Resolves: #1568638
-
-* Fri Apr 13 2018 Kalev Lember <klember@redhat.com> - 3.22.0-2
-- Remove scaling factor setting, moved to control-center in RHEL 7.5
-- Resolves: #1567040
-
-* Thu Sep 22 2016 Kalev Lember <klember@redhat.com> - 3.22.0-1
-- Update to 3.22.0
-
-* Tue Sep 06 2016 Kalev Lember <klember@redhat.com> - 3.21.91-1
-- Update to 3.21.91
-- Set minimum required gsettings-desktop-schemas version
-- Update project URLs
-
-* Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.20.1-2
-- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
-
-* Tue May 03 2016 Kalev Lember <klember@redhat.com> - 3.20.1-1
-- Update to 3.20.1
-
-* Wed Mar 23 2016 Kalev Lember <klember@redhat.com> - 3.20.0-1
-- Update to 3.20.0
-
-* Wed Feb 17 2016 Richard Hughes <rhughes@redhat.com> - 3.19.90-1
-- Update to 3.19.90
-
-* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 3.19.1-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
-
-* Wed Jan 20 2016 Kalev Lember <klember@redhat.com> - 3.19.1-1
-- Update to 3.19.1
-
-* Wed Nov 11 2015 Kalev Lember <klember@redhat.com> - 3.18.1-1
-- Update to 3.18.1
-
-* Mon Sep 21 2015 Kalev Lember <klember@redhat.com> - 3.18.0-1
-- Update to 3.18.0
-
-* Tue Aug 18 2015 Kalev Lember <klember@redhat.com> - 3.17.90-1
-- Update to 3.17.90
-- Use make_install macro
-
-* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.17.1-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
-
-* Thu Apr 30 2015 Kalev Lember <kalevlember@gmail.com> - 3.17.1-1
-- Update to 3.17.1
-
-* Thu Apr 16 2015 Kalev Lember <kalevlember@gmail.com> - 3.16.1-1
-- Update to 3.16.1
-
-* Mon Mar 30 2015 Richard Hughes <rhughes@redhat.com> - 3.16.0-2
-- Use better AppData screenshots
-
-* Tue Mar 24 2015 Kalev Lember <kalevlember@gmail.com> - 3.16.0-1
-- Update to 3.16.0
-
-* Tue Mar 17 2015 Kalev Lember <kalevlember@gmail.com> - 3.15.92-1
-- Update to 3.15.92
-- Use license macro for the COPYING file
-
-* Tue Feb 17 2015 Richard Hughes <rhughes@redhat.com> - 3.15.90-1
-- Update to 3.15.90
+* Sat Apr 11 2015 Kalev Lember <kalevlember@gmail.com> - 3.14.3-1
+- Update to 3.14.3
 
 * Fri Nov 14 2014 Kalev Lember <kalevlember@gmail.com> - 3.14.2-1
 - Update to 3.14.2
