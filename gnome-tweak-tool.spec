@@ -5,7 +5,7 @@
 
 Name:           gnome-tweak-tool
 Version:        3.28.1
-Release:        2%{?dist}.2
+Release:        2%{?dist}
 Summary:        Customize advanced GNOME 3 options
 
 # Software is GPLv3, Appdata file is CC0-1.0
@@ -13,7 +13,6 @@ License:        GPLv3 and CC0
 URL:            https://wiki.gnome.org/action/show/Apps/Tweaks
 Source0:        https://download.gnome.org/sources/%{name_new}/%{majorversion}/%{name_new}-%{version}.tar.xz
 Patch0:         port-to-python2.patch
-Patch1:         fix-keyboard-panel-crash.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
@@ -44,7 +43,6 @@ and extension, etc.
 %prep
 %setup -q -n gnome-tweaks-%{version}
 %patch0 -p1 -b .py3
-%patch1 -p1
 
 %build
 %meson
@@ -104,18 +102,6 @@ fi
 
 
 %changelog
-* Tue Jan 22 2019 Carlos Soriano <csoriano@redhat.com> - 3.28.1-2
-- Fix release numbers for z-stream
-- Resolves: #1667991 #1664791
-
-* Mon Jan 21 2019 Carlos Soriano <csoriano@redhat.com> - 3.28.1-4
-- Fix keyboard panel crashes
-- Resolves: #1667991
-
-* Mon Dec 17 2018 Carlos Soriano <csoriano@redhat.com> - 3.28.1-3
-- Fixes to port to python2
-- Resolves: #1664791
-
 * Thu Jun 14 2018 Carlos Soriano <csoriano@redhat.com> - 3.28.1-2
 - Port to python2
 - Resolves: #1590848
