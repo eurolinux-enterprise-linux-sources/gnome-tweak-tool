@@ -21,7 +21,7 @@ from gi.repository import GLib
 
 import gtweak
 from gtweak.utils import XSettingsOverrides, walk_directories, make_combo_list_with_default
-from gtweak.widgets import ListBoxTweakGroup, GSettingsComboTweak, GSettingsSwitchTweak, GetterSetterSwitchTweak, Title
+from gtweak.widgets import ListBoxTweakGroup, GSettingsComboTweak, GSettingsSwitchTweak, GetterSetterSwitchTweak, Title, GSettingsComboEnumTweak
 
 class PrimaryPasteTweak(GetterSetterSwitchTweak):
     def __init__(self, **options):
@@ -37,6 +37,7 @@ class PrimaryPasteTweak(GetterSetterSwitchTweak):
 class KeyThemeSwitcher(GSettingsComboTweak):
     def __init__(self, **options):
         GSettingsComboTweak.__init__(self,
+			# Translators: This setting refers to a set of pre-defined key bindings
 			_("Key theme"),
             "org.gnome.desktop.interface",
             "gtk-key-theme",
@@ -65,13 +66,23 @@ TWEAK_GROUPS = [
         GSettingsComboTweak(_("Switch between overview and desktop"),
                               "org.gnome.mutter",
                               "overlay-key",
-                              [("Super_L", _("Super left")), ("Super_R", _("Super right"))]),
+                              [("Super_L", _("Left super")), ("Super_R", _("Right super"))]),
               
         Title(_("Mouse"), ""),
+        GSettingsComboEnumTweak(_("Acceleration profile"),
+                                "org.gnome.desktop.peripherals.mouse",
+                                "accel-profile",
+                                schema_filename="org.gnome.desktop.peripherals.gschema.xml"),
         GSettingsSwitchTweak(_("Show location of pointer"),
                              "org.gnome.settings-daemon.peripherals.mouse", 
                              "locate-pointer", 
                               schema_filename="org.gnome.settings-daemon.peripherals.gschema.xml"),
         PrimaryPasteTweak(),
+
+        Title(_("Touchpad"), ""),
+        GSettingsComboEnumTweak(_("Click method"),
+                                "org.gnome.desktop.peripherals.touchpad",
+                                "click-method",
+                                schema_filename="org.gnome.desktop.peripherals.gschema.xml"),
         ),
 ]

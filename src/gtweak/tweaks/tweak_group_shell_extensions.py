@@ -55,9 +55,10 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
                         
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         lbl_name = Gtk.Label(xalign=0.0)
-        lbl_name.set_markup("<span size='medium'><b>"+ext["name"].lower().capitalize()+"</b></span>")
+        name_markup = GLib.markup_escape_text(ext["name"].lower().capitalize())
+        lbl_name.set_markup("<span size='medium'><b>"+name_markup+"</b></span>")
         lbl_desc = Gtk.Label(xalign=0.0)
-        desc = ext["description"].lower().capitalize().split('\n')[0]
+        desc = GLib.markup_escape_text(ext["description"].lower().capitalize().split('\n')[0])
         lbl_desc.set_markup("<span foreground='#A19C9C' size='small'>"+desc+"</span>")
         lbl_desc.props.ellipsize = Pango.EllipsizeMode.END 
         
@@ -96,12 +97,8 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
         if self._shell.SUPPORTS_EXTENSION_PREFS:
             prefs = os.path.join(ext['path'], "prefs.js")
             if os.path.exists(prefs):
-                icon = Gtk.Image()  
-                icon.set_from_icon_name("emblem-system-symbolic", Gtk.IconSize.BUTTON)
-                btn = Gtk.Button()
-                btn.props.vexpand = False
+                btn = Gtk.Button.new_from_icon_name("emblem-system-symbolic", Gtk.IconSize.BUTTON)
                 btn.props.valign = Gtk.Align.CENTER
-                btn.add(icon)
                 btn.connect("clicked", self._on_configure_clicked, uuid)
                 self.hbox.pack_start(btn, False, False, 0)
 

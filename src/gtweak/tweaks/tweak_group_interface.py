@@ -46,12 +46,17 @@ class GtkThemeSwitcher(GSettingsComboTweak):
 
     def _get_valid_themes(self):
         """ Only shows themes that have variations for gtk+-3 and gtk+-2 """
+        gtk_ver = Gtk.MINOR_VERSION
+        if gtk_ver % 2: # Want even number
+            gtk_ver += 1
+
         dirs = ( os.path.join(gtweak.DATA_DIR, "themes"),
                  os.path.join(GLib.get_user_data_dir(), "themes"),
                  os.path.join(os.path.expanduser("~"), ".themes"))
         valid = walk_directories(dirs, lambda d:
                     os.path.exists(os.path.join(d, "gtk-2.0")) and \
-                        os.path.exists(os.path.join(d, "gtk-3.0")))
+                        (os.path.exists(os.path.join(d, "gtk-3.0")) or \
+                         os.path.exists(os.path.join(d, "gtk-3.{}".format(gtk_ver)))))
         return valid
 
 class IconThemeSwitcher(GSettingsComboTweak):
@@ -60,7 +65,7 @@ class IconThemeSwitcher(GSettingsComboTweak):
 			_("Icons"),            
 			"org.gnome.desktop.interface",
             "icon-theme",
-            make_combo_list_with_default(self._get_valid_icon_themes(), "gnome"),
+            make_combo_list_with_default(self._get_valid_icon_themes(), "Adwaita"),
             **options)
 
     def _get_valid_icon_themes(self):
@@ -88,22 +93,6 @@ class CursorThemeSwitcher(GSettingsComboTweak):
         valid = walk_directories(dirs, lambda d:
                     os.path.isdir(d) and \
                         os.path.exists(os.path.join(d, "cursors")))
-        return valid
-
-class WindowThemeSwitcher(GSettingsComboTweak):
-    def __init__(self, **options):
-        GSettingsComboTweak.__init__(self,
-			_("Window"),
-            "org.gnome.desktop.wm.preferences",
-            "theme",
-            make_combo_list_with_default(self._get_valid_themes(), "Adwaita"),
-            **options)
-
-    def _get_valid_themes(self):
-        dirs = ( os.path.join(gtweak.DATA_DIR, "themes"),
-                 os.path.join(GLib.get_user_data_dir(), "themes"))
-        valid = walk_directories(dirs, lambda d:
-                    os.path.exists(os.path.join(d, "metacity-1")))
         return valid
 
 class ShellThemeTweak(Gtk.Box, Tweak):
@@ -270,10 +259,10 @@ TWEAK_GROUPS = [
         #GSettingsSwitchTweak("Buttons Icons","org.gnome.desktop.interface", "buttons-have-icons"),
         #GSettingsSwitchTweak("Menu Icons","org.gnome.desktop.interface", "menus-have-icons"),
         Title(_("Theme"), "", uid="title-theme"),
-        WindowThemeSwitcher(),
         GtkThemeSwitcher(),
         IconThemeSwitcher(),
         CursorThemeSwitcher(),
         ShellThemeTweak(loaded=_shell_loaded),
+        GSettingsSwitchTweak(_("Enable animations"), "org.gnome.desktop.interface", "enable-animations"),
     ),
 ]

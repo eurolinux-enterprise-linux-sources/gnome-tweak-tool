@@ -1,7 +1,7 @@
-From 2c390d60532437972c2d28fd70a54c07c71b74db Mon Sep 17 00:00:00 2001
+From 5c2027d08a008fc63ebd0b8f162931cf3fcc393d Mon Sep 17 00:00:00 2001
 From: Rui Matos <tiagomatos@gmail.com>
 Date: Wed, 8 Apr 2015 15:08:16 +0200
-Subject: [PATCH 10/12] shell_extensions: SESSION_MODE extensions can't be
+Subject: [PATCH 6/8] shell_extensions: SESSION_MODE extensions can't be
  enabled/disabled
 
 gnome-shell always enables this kind of extensions and doesn't allow
@@ -11,7 +11,7 @@ disabling them so reflect that in the UI.
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/gtweak/tweaks/tweak_group_shell_extensions.py b/gtweak/tweaks/tweak_group_shell_extensions.py
-index 1f6b7f0..a36515b 100644
+index b791e4a..855ffe7 100644
 --- a/gtweak/tweaks/tweak_group_shell_extensions.py
 +++ b/gtweak/tweaks/tweak_group_shell_extensions.py
 @@ -49,7 +49,8 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
@@ -24,7 +24,7 @@ index 1f6b7f0..a36515b 100644
          sw.connect('notify::active', self._on_extension_toggled, uuid)
          self.hbox.pack_start(sw, False, False, 0)
                          
-@@ -72,7 +73,8 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
+@@ -73,7 +74,8 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
          if state == GnomeShell.EXTENSION_STATE["ENABLED"] or \
             state == GnomeShell.EXTENSION_STATE["DISABLED"] or \
             state == GnomeShell.EXTENSION_STATE["INITIALIZED"]:
@@ -35,5 +35,5 @@ index 1f6b7f0..a36515b 100644
              info = _("Extension downloading")
          elif state == GnomeShell.EXTENSION_STATE["ERROR"]:
 -- 
-2.3.6
+2.9.3
 

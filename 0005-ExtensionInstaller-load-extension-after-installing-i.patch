@@ -1,7 +1,7 @@
-From 0c14b2422d624f6506820325dfc0fbb75d16fa62 Mon Sep 17 00:00:00 2001
+From d4681a4c8a7833b773dfef32f56a70ee57fbc478 Mon Sep 17 00:00:00 2001
 From: Rui Matos <tiagomatos@gmail.com>
 Date: Tue, 7 Apr 2015 16:20:26 +0200
-Subject: [PATCH 09/12] ExtensionInstaller: load extension after installing it
+Subject: [PATCH 5/8] ExtensionInstaller: load extension after installing it
 
 ---
  gtweak/gshellwrapper.py                       | 3 +++
@@ -23,10 +23,10 @@ index 8c7e2ac..3212803 100644
          return self._proxy.proxy_extensions.GetExtensionInfo('(s)', uuid)
  
 diff --git a/gtweak/tweaks/tweak_group_shell_extensions.py b/gtweak/tweaks/tweak_group_shell_extensions.py
-index c8af468..1f6b7f0 100644
+index c1f41d9..b791e4a 100644
 --- a/gtweak/tweaks/tweak_group_shell_extensions.py
 +++ b/gtweak/tweaks/tweak_group_shell_extensions.py
-@@ -247,17 +247,10 @@ class _ShellExtensionInstallerTweak(Gtk.Box, Tweak):
+@@ -244,17 +244,10 @@ class _ShellExtensionInstallerTweak(Gtk.Box, Tweak):
                                      os.path.join(self._shell.EXTENSION_DIR, extension_uuid))
  
                  if ok:
@@ -46,5 +46,5 @@ index c8af468..1f6b7f0 100644
                  #does not look like a valid theme
                  self.notify_information(_("Invalid extension"))
 -- 
-2.3.6
+2.9.3
 

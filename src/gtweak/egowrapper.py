@@ -18,22 +18,23 @@
 import json
 import logging
 
+import gi
+gi.require_version("Soup", "2.4")
 from gi.repository import GObject
-from gi.repository import Soup, SoupGNOME
+from gi.repository import Soup
 
 class ExtensionsDotGnomeDotOrg(GObject.GObject):
 
     __gsignals__ = {
-      "got-extensions": (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+      "got-extensions": (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
             (GObject.TYPE_PYOBJECT,)),
-      "got-extension-info": (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+      "got-extension-info": (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
             (GObject.TYPE_PYOBJECT,GObject.TYPE_STRING)),
     }
 
     def __init__(self, shell_version_tuple):
         GObject.GObject.__init__(self)
-        self._session = Soup.SessionAsync.new()
-        self._session.add_feature_by_type(SoupGNOME.ProxyResolverGNOME)
+        self._session = Soup.Session.new()
 
         self._shell_version_tuple = shell_version_tuple
         self._extensions = {}

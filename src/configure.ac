@@ -1,4 +1,4 @@
-AC_INIT([gnome-tweak-tool], [3.14.3], [john.stowers@gmail.com])
+AC_INIT([gnome-tweak-tool], [3.22.0], [john.stowers@gmail.com])
 
 AM_INIT_AUTOMAKE([foreign tar-ustar dist-xz no-dist-gzip])
 
@@ -7,7 +7,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AM_PATH_PYTHON([2.6])
 GLIB_GSETTINGS
 
-DESKTOP_SCHEMAS_REQUIRED_VERSION=3.4.0
+DESKTOP_SCHEMAS_REQUIRED_VERSION=3.21.2
 GTK_REQUIRED_VERSION=3.12.0
 PYGOBJECT_REQUIRED_VERSION=3.2.1
 
@@ -25,6 +25,7 @@ AS_AC_EXPAND(PKGDATADIR, "${datadir}/${PACKAGE}")
 AS_AC_EXPAND(GSETTINGSSCHEMADIR, "${gsettingsschemadir}")
 AS_AC_EXPAND(TWEAKDIR, "${pythondir}/gtweak/tweaks")
 AS_AC_EXPAND(LOCALEDIR, "${localedir}")
+AS_AC_EXPAND(LIBEXECDIR, "${libexecdir}")
 
 AC_CONFIG_FILES([ po/Makefile.in
 Makefile

@@ -25,6 +25,8 @@ import glob
 import gtweak
 from gtweak.gsettings import GSettingsSetting
 
+import gi
+gi.require_version("Notify", "0.7")
 from gi.repository import GObject
 from gi.repository import GLib
 from gi.repository import Gio
@@ -136,8 +138,17 @@ class AutostartManager:
 
 class AutostartFile:
     def __init__(self, appinfo, autostart_desktop_filename="", exec_cmd="", extra_exec_args=""):
-        self._desktop_file = appinfo.get_filename()
-        self._autostart_desktop_filename = autostart_desktop_filename or os.path.basename(self._desktop_file)
+        if appinfo:
+            self._desktop_file = appinfo.get_filename()
+            self._autostart_desktop_filename = autostart_desktop_filename or os.path.basename(self._desktop_file)
+            self._create_file = False
+        elif autostart_desktop_filename:
+            self._desktop_file = None
+            self._autostart_desktop_filename = autostart_desktop_filename
+            self._create_file = True
+        else:
+            raise Exception("Need either an appinfo or a file name")
+
         self._exec_cmd = exec_cmd
         self._extra_exec_args = " %s\n" % extra_exec_args
 
@@ -150,8 +161,15 @@ class AutostartFile:
 
         self._user_autostart_file = os.path.join(user_autostart_dir, self._autostart_desktop_filename)
 
-        logging.debug("Found desktop file: %s" % self._desktop_file)
+        if self._desktop_file:
+            logging.debug("Found desktop file: %s" % self._desktop_file)
         logging.debug("User autostart desktop file: %s" % self._user_autostart_file)
+
+    def _create_user_autostart_file(self):
+        f = open(self._user_autostart_file, "w")
+        f.write("[Desktop Entry]\nType=Application\nName=%s\nExec=%s\n" %
+                (self._autostart_desktop_filename[0:-len('.desktop')], self._exec_cmd + self._extra_exec_args))
+        f.close()
 
     def is_start_at_login_enabled(self):
         if os.path.exists(self._user_autostart_file):
@@ -175,7 +193,10 @@ class AutostartFile:
 
         if update:
             if (not self._desktop_file) or (not os.path.exists(self._desktop_file)):
-                logging.critical("Could not find desktop file: %s" % self._desktop_file)
+                if self._create_file:
+                    self._create_user_autostart_file()
+                else:
+                    logging.critical("Could not find desktop file: %s" % self._desktop_file)
                 return
 
             logging.info("Adding autostart %s" % self._user_autostart_file)
@@ -220,7 +241,7 @@ class SchemaList:
 class DisableExtension(GObject.GObject):
     
     __gsignals__ = {
-        "disable-extension": (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,()),
+        "disable-extension": (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,()),
     }    
     
     def __init__(self):
@@ -303,14 +324,14 @@ class Notification:
 @singleton
 class LogoutNotification:
     def __init__(self):
-        if Notify.is_initted() or Notify.init("GNOME Tweak Tool"):
+        if Notify.is_initted() or Notify.init(_("GNOME Tweak Tool")):
             self.notification = Notify.Notification.new(
-                                "Configuration changes requiere restart",
-                                "Your session needs to be restarted for settings to take effect",
+                                _("Configuration changes require restart"),
+                                _("Your session needs to be restarted for settings to take effect"),
                                 'gnome-tweak-tool')
             self.notification.add_action(
                                 "restart",
-                                "Restart Session",
+                                _("Restart Session"),
                                 self._logout, None, None)
             self.notification.set_hint(
                                 "desktop-entry",

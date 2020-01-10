@@ -1,7 +1,7 @@
-From 709bf2c0f175c03669e65cc2e0b34f5c357df29c Mon Sep 17 00:00:00 2001
+From 699ec2491e3ada4a36da912af2b51c0059e7ea3d Mon Sep 17 00:00:00 2001
 From: Rui Matos <tiagomatos@gmail.com>
 Date: Tue, 7 Apr 2015 20:43:23 +0200
-Subject: [PATCH 05/12] gshellwrapper: Add missing extension state and type
+Subject: [PATCH 1/8] gshellwrapper: Add missing extension state and type
 
 ---
  gtweak/gshellwrapper.py | 4 +++-
@@ -27,5 +27,5 @@ index ca7e7c0..9d0ccdd 100644
  
      DATA_DIR = os.path.join(GLib.get_user_data_dir(), "gnome-shell")
 -- 
-2.3.6
+2.9.3
 

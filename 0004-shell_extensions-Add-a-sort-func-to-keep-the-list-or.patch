@@ -1,7 +1,7 @@
-From b2bee94b2e17a5f34c289c12f232fcd413738bf0 Mon Sep 17 00:00:00 2001
+From eb13e65fbd898fca6c4e8f49c278d014a492bbe5 Mon Sep 17 00:00:00 2001
 From: Rui Matos <tiagomatos@gmail.com>
 Date: Wed, 8 Apr 2015 11:52:36 +0200
-Subject: [PATCH 08/12] shell_extensions: Add a sort func to keep the list
+Subject: [PATCH 4/8] shell_extensions: Add a sort func to keep the list
  ordered
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 08/12] shell_extensions: Add a sort func to keep the list
  1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/gtweak/tweaks/tweak_group_shell_extensions.py b/gtweak/tweaks/tweak_group_shell_extensions.py
-index 25bfaf4..c8af468 100644
+index fce8abf..c1f41d9 100644
 --- a/gtweak/tweaks/tweak_group_shell_extensions.py
 +++ b/gtweak/tweaks/tweak_group_shell_extensions.py
-@@ -304,16 +304,17 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
+@@ -301,16 +301,17 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
                  logging.warning("Error listing extensions", exc_info=True)
          except:
              logging.warning("Error detecting shell", exc_info=True)
@@ -33,7 +33,7 @@ index 25bfaf4..c8af468 100644
  
      def _got_info(self, ego, resp, uuid, extension, widget):
          if uuid == extension["uuid"]:
-@@ -335,6 +336,14 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
+@@ -332,6 +333,14 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
          if before and not row.get_header():
              row.set_header (Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL))
  
@@ -49,5 +49,5 @@ index 25bfaf4..c8af468 100644
          if uuid not in self._uuids:
              self._add_extension(uuid)
 -- 
-2.3.6
+2.9.3
 

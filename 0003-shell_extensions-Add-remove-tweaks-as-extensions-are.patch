@@ -1,7 +1,7 @@
-From f32fd7923f7bc3c99339f72730126ec93bc4f3ab Mon Sep 17 00:00:00 2001
+From b6497ea5d0e099c27b7699b936f61c257403e535 Mon Sep 17 00:00:00 2001
 From: Rui Matos <tiagomatos@gmail.com>
 Date: Thu, 7 Nov 2013 13:06:23 +0100
-Subject: [PATCH 07/12] shell_extensions: Add/remove tweaks as extensions are
+Subject: [PATCH 3/8] shell_extensions: Add/remove tweaks as extensions are
  added/removed
 
 ---
@@ -24,10 +24,10 @@ index 22725df..8c7e2ac 100644
  class GnomeShellFactory:
      def __init__(self):
 diff --git a/gtweak/tweaks/tweak_group_shell_extensions.py b/gtweak/tweaks/tweak_group_shell_extensions.py
-index ba82bf7..25bfaf4 100644
+index e33966f..fce8abf 100644
 --- a/gtweak/tweaks/tweak_group_shell_extensions.py
 +++ b/gtweak/tweaks/tweak_group_shell_extensions.py
-@@ -158,7 +158,7 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
+@@ -155,7 +155,7 @@ class _ShellExtensionTweak(Gtk.ListBoxRow, Tweak):
          btn.set_label(_("Updating"))
          self.set_sensitive(False)
          self._shell.install_remote_extension(uuid,self.reply_handler, self.error_handler, btn)
@@ -36,7 +36,7 @@ index ba82bf7..25bfaf4 100644
      def reply_handler(self, proxy_object, result, user_data):
          if result == 's':
              self.deleteButton.show()
-@@ -268,14 +268,22 @@ class _ShellExtensionInstallerTweak(Gtk.Box, Tweak):
+@@ -265,14 +265,22 @@ class _ShellExtensionInstallerTweak(Gtk.Box, Tweak):
  
  class ShellExtensionTweakGroup(ListBoxTweakGroup):
      def __init__(self):
@@ -59,7 +59,7 @@ index ba82bf7..25bfaf4 100644
  
              version =  tuple(shell.version.split("."))
              ego = ExtensionsDotGnomeDotOrg(version)
-@@ -286,6 +294,7 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
+@@ -283,6 +291,7 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
                      try:
                          extension_widget = _ShellExtensionTweak(shell, extension, size_group=sg)
                          extension_tweaks.append(extension_widget)
@@ -67,7 +67,7 @@ index ba82bf7..25bfaf4 100644
                          if extension.get("type") == GnomeShell.EXTENSION_TYPE["PER_USER"]:
                              ego.connect("got-extension-info", self._got_info, extension, extension_widget)
                              ego.query_extension_info(extension["uuid"])
-@@ -326,6 +335,28 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
+@@ -323,6 +332,28 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
          if before and not row.get_header():
              row.set_header (Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL))
  
@@ -97,5 +97,5 @@ index ba82bf7..25bfaf4 100644
          ShellExtensionTweakGroup(),
  ]
 -- 
-2.3.6
+2.9.3
 
